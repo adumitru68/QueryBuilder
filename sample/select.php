@@ -27,6 +27,8 @@ echo "<pre>" . print_r( $query->getBindParams(), 1 ) . "</pre>";
 echo "<pre>" . print_r( $query->getSyntax( 1 ), 1 ) . "</pre>";
 echo "<pre>" . print_r( $query->execute(), 1 ) . "</pre>";
 
+var_dump('page_select');
+
 $a =
 	[
 		[
