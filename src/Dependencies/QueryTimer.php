@@ -12,15 +12,19 @@ class QueryTimer
 {
 
 	/**
-	 * @var double
+	 * @var mixed
 	 */
 	private $queryStart;
 
 	/**
-	 * @var double
+	 * @var mixed
 	 */
 	private $queryEnd;
 
+
+	/**
+	 * QueryTimer constructor.
+	 */
 	public function __construct()
 	{
 		$this->queryStart = microtime( true );

@@ -60,7 +60,7 @@ abstract class QueryStatement
 	/**
 	 * QueryStatement constructor.
 	 * @param QueryBuild $queryBuild
-	 * @param string $table
+	 * @param string|QuerySelect $table
 	 * @throws QueryException
 	 */
 	public function __construct( QueryBuild $queryBuild, $table = '' )

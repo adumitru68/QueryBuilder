@@ -43,6 +43,11 @@ class QueryCustom implements QueryStatementInterface
 	protected $tablePrefix;
 
 
+	/**
+	 * QueryCustom constructor.
+	 * @param QueryBuild $queryBuild
+	 * @param string $query
+	 */
 	public function __construct( QueryBuild $queryBuild, $query = '' )
 	{
 		$this->queryBuild = $queryBuild;

@@ -34,7 +34,7 @@ class QueryInsert extends QueryStatement implements QueryStatementInterface
 	/**
 	 * QueryInsert constructor.
 	 * @param QueryBuild $queryBuild
-	 * @param null $table
+	 * @param string $table
 	 */
 	public function __construct( QueryBuild $queryBuild, $table = null )
 	{

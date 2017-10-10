@@ -233,25 +233,18 @@ class DbService
 			switch ( strtolower( $matches[1] ) ) {
 				case 'select':
 					return self::QUERY_TYPE_SELECT;
-					break;
 				case 'insert':
 					return self::QUERY_TYPE_INSERT;
-					break;
 				case 'update':
 					return self::QUERY_TYPE_UPDATE;
-					break;
 				case 'delete':
 					return self::QUERY_TYPE_DELETE;
-					break;
 				case 'replace':
 					return self::QUERY_TYPE_REPLACE;
-					break;
 				case 'explain':
 					return self::QUERY_TYPE_EXPLAIN;
-					break;
 				default:
 					return self::QUERY_TYPE_OTHER;
-					break;
 			}
 		}
 		else {
