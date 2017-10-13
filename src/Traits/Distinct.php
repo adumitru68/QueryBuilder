@@ -60,13 +60,10 @@ trait Distinct
 		switch ( $useDistinct ) {
 			case 0:
 				return '';
-				break;
 			case 1:
 				return 'DISTINCT';
-				break;
 			case 2:
 				return 'DISTINCTROW';
-				break;
 			default:
 				throw new QueryException( 'Invalid distinct type', QueryException::QUERY_ERROR_INVALID_DISTINCT );
 		}

@@ -106,7 +106,6 @@ class QueryUpdate extends QueryStatement implements QueryStatementInterface
 	 */
 	public function execute()
 	{
-
 		if (
 			$this->queryStructure->getElement( ( QueryStructure::WHERE_TRIGGER ) ) &&
 			!count( $this->queryStructure->getElement( QueryStructure::WHERE ) )

@@ -346,13 +346,13 @@ trait Where
 
 
 	/**
-	 * @param $param
+	 * @param string|array $param
 	 * @param string $glue
 	 * @return $this
 	 */
 	private function where( $param, $glue = 'AND' )
 	{
-		return $this->createCondition($param, $glue, QueryStructure::WHERE );
+		return $this->/** @scrutinizer ignore-call */ createCondition($param, $glue, QueryStructure::WHERE );
 	}
 
 }

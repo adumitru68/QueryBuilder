@@ -82,12 +82,12 @@ class DbLog
 
 		if ( is_dir( $this->path ) ) {
 			if ( !file_exists( $log ) ) {
-				$fh = fopen( $log, 'a+' ) or die( "Fatal Error !" );
+				$fh = fopen( $log, 'a+' );
 				fwrite( $fh, $messageFormat );
 				fclose( $fh );
 			}
 			else {
-				$this->edit( $log, $date, $messageFormat );
+				$this->edit( $log, $messageFormat );
 			}
 		}
 		else {
@@ -100,10 +100,9 @@ class DbLog
 
 	/**
 	 * @param string $log
-	 * @param \DateTime $date
 	 * @param  string $message
 	 */
-	private function edit( $log, \DateTime $date, $message )
+	private function edit( $log, $message )
 	{
 		file_put_contents( $log, $message, FILE_APPEND );
 	}

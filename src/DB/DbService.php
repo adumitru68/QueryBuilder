@@ -48,7 +48,7 @@ class DbService
 
 	/**
 	 * @param string $query
-	 * @param null $params
+	 * @param array $params
 	 * @param int $fetchMode
 	 * @return array|int|null
 	 */
@@ -60,14 +60,14 @@ class DbService
 
 		$this->queryInit( $query, $params );
 
-		if ( $statement === self::QUERY_TYPE_SELECT ||
+		if( $statement === self::QUERY_TYPE_SELECT ||
 			$statement === self::QUERY_TYPE_SHOW ||
 			$statement === self::QUERY_TYPE_DESC ||
 			$statement === self::QUERY_TYPE_EXPLAIN
 		) {
 			return $this->sQuery->fetchAll( $fetchMode );
 		}
-		elseif ( $statement === self::QUERY_TYPE_INSERT ||
+		elseif( $statement === self::QUERY_TYPE_INSERT ||
 			$statement === self::QUERY_TYPE_UPDATE ||
 			$statement === self::QUERY_TYPE_DELETE
 		) {
@@ -81,7 +81,7 @@ class DbService
 
 	/**
 	 * @param $query
-	 * @param null $params
+	 * @param array $params
 	 * @return array|null
 	 */
 	public function column( $query, $params = null )
@@ -91,15 +91,15 @@ class DbService
 		$query = trim( str_replace( "\r", " ", $query ) );
 		$statement = self::getQueryStatement( $query );
 
-		if ( $statement === self::QUERY_TYPE_EXPLAIN )
+		if( $statement === self::QUERY_TYPE_EXPLAIN )
 			return $this->sQuery->fetchAll( \PDO::FETCH_ASSOC );
 
 		$Columns = $this->sQuery->fetchAll( \PDO::FETCH_NUM );
 
 		$column = null;
 
-		foreach ( $Columns as $cells ) {
-			$column[] = $cells[0];
+		foreach( $Columns as $cells ) {
+			$column[] = $cells[ 0 ];
 		}
 
 		return $column;
@@ -112,7 +112,7 @@ class DbService
 		$query = trim( str_replace( "\r", " ", $query ) );
 		$statement = self::getQueryStatement( $query );
 
-		if ( $statement === self::QUERY_TYPE_EXPLAIN )
+		if( $statement === self::QUERY_TYPE_EXPLAIN )
 			return $this->sQuery->fetchAll( \PDO::FETCH_ASSOC );
 
 		$result = $this->sQuery->fetch( $fetchmode );
@@ -150,42 +150,42 @@ class DbService
 			/**
 			 * Add parameters to the parameter array
 			 */
-			if ( self::isArrayAssoc( $parameters ) )
+			if( self::isArrayAssoc( $parameters ) )
 				$this->bindMore( $parameters );
 			else
-				foreach ( $parameters as $key => $val )
+				foreach( $parameters as $key => $val )
 					$this->parameters[] = array( $key + 1, $val );
 
-			if ( count( $this->parameters ) ) {
-				foreach ( $this->parameters as $param => $value ) {
-					if ( is_int( $value[1] ) ) {
+			if( count( $this->parameters ) ) {
+				foreach( $this->parameters as $param => $value ) {
+					if( is_int( $value[ 1 ] ) ) {
 						$type = \PDO::PARAM_INT;
 					}
-					elseif ( is_bool( $value[1] ) ) {
+					elseif( is_bool( $value[ 1 ] ) ) {
 						$type = \PDO::PARAM_BOOL;
 					}
-					elseif ( is_null( $value[1] ) ) {
+					elseif( is_null( $value[ 1 ] ) ) {
 						$type = \PDO::PARAM_NULL;
 					}
 					else {
 						$type = \PDO::PARAM_STR;
 					}
-					$this->sQuery->bindValue( $value[0], $value[1], $type );
+					$this->sQuery->bindValue( $value[ 0 ], $value[ 1 ], $type );
 				}
 			}
 
 			$this->sQuery->execute();
 
-			if ( DbConfig::getInstance()->isEnableLogQueryDuration() ) {
+			if( DbConfig::getInstance()->isEnableLogQueryDuration() ) {
 				$duration = microtime( true ) - $startQueryTime;
 				DbLog::getInstance()->writeQueryDuration( $query, $duration );
 			}
 
-		} catch ( \PDOException $e ) {
-			if ( DbConfig::getInstance()->isEnableLogErrors() ) {
+		} catch( \PDOException $e ) {
+			if( DbConfig::getInstance()->isEnableLogErrors() ) {
 				DbLog::getInstance()->writeQueryErros( $query, $e->getCode(), $e->getMessage() );
 			}
-			throw new DbException($e->getMessage(), DbException::DB_QUERY_ERROR);
+			throw new DbException( 'Database error!', DbException::DB_QUERY_ERROR );
 		}
 
 		/**
@@ -197,9 +197,9 @@ class DbService
 
 	public function bindMore( $parray )
 	{
-		if ( !count( $this->parameters ) && is_array( $parray ) ) {
+		if( !count( $this->parameters ) && is_array( $parray ) ) {
 			$columns = array_keys( $parray );
-			foreach ( $columns as $i => &$column ) {
+			foreach( $columns as $i => &$column ) {
 				$this->bind( $column, $parray[ $column ] );
 			}
 		}
@@ -225,12 +225,12 @@ class DbService
 	{
 		$queryString = trim( $queryString );
 
-		if ( $queryString === '' ) {
+		if( $queryString === '' ) {
 			return self::QUERY_TYPE_EMPTY;
 		}
 
-		if ( preg_match( '/^(select|insert|update|delete|replace|show|desc|explain)[\s]+/i', $queryString, $matches ) ) {
-			switch ( strtolower( $matches[1] ) ) {
+		if( preg_match( '/^(select|insert|update|delete|replace|show|desc|explain)[\s]+/i', $queryString, $matches ) ) {
+			switch( strtolower( $matches[ 1 ] ) ) {
 				case 'select':
 					return self::QUERY_TYPE_SELECT;
 				case 'insert':
@@ -258,7 +258,7 @@ class DbService
 	 */
 	public static function isArrayAssoc( array $arr )
 	{
-		if ( array() === $arr ) return false;
+		if( array() === $arr ) return false;
 
 		return array_keys( $arr ) !== range( 0, count( $arr ) - 1 );
 	}
@@ -269,7 +269,7 @@ class DbService
 	 */
 	public static function getInstance()
 	{
-		if ( null === self::$instance ) {
+		if( null === self::$instance ) {
 			self::$instance = new self();
 		}
 

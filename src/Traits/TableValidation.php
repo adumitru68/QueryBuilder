@@ -13,6 +13,7 @@ use Qpdb\QueryBuilder\DB\DbConfig;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\Statements\QuerySelect;
+use Qpdb\QueryBuilder\Statements\QueryStatement;
 
 trait TableValidation
 {
@@ -55,7 +56,7 @@ trait TableValidation
 
 	private function validateTableSubQuery( $table )
 	{
-		if ( $this->statement !== self::QUERY_STATEMENT_SELECT )
+		if ( $this->statement !== QueryStatement::QUERY_STATEMENT_SELECT )
 			throw new QueryException( 'Invalid subQuery statement!', QueryException::QUERY_ERROR_INVALID_TABLE_STATEMENT );
 
 		if ( !is_a( $table, QuerySelect::class ) )
