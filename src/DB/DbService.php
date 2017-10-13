@@ -185,7 +185,7 @@ class DbService
 			if ( DbConfig::getInstance()->isEnableLogErrors() ) {
 				DbLog::getInstance()->writeQueryErros( $query, $e->getCode(), $e->getMessage() );
 			}
-			throw new \PDOException( $e->getMessage(), $e->getCode() );
+			throw new DbException($e->getMessage(), DbException::DB_QUERY_ERROR);
 		}
 
 		/**

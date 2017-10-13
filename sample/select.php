@@ -11,7 +11,7 @@ use Qpdb\QueryBuilder\QueryBuild;
 include_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 
-$query = QueryBuild::select( 'employees' )
+$query = QueryBuild::select( 'employees22' )
 	->fields('lastName, jobTitle, officeCode')
 	->whereEqual( 'jobTitle', "Sales Rep" )
 	->whereIn( 'officeCode', [ 2, 3, 4 ] );
