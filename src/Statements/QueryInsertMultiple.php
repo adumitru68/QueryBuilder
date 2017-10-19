@@ -23,70 +23,67 @@ use Qpdb\QueryBuilder\Traits\Utilities;
 class QueryInsertMultiple extends QueryStatement implements QueryStatementInterface
 {
 
-	use InsertMultiple, Replacement, Ignore, DefaultPriority, LowPriority, HighPriority, Utilities;
+    use InsertMultiple, Replacement, Ignore, DefaultPriority, LowPriority, HighPriority, Utilities;
 
-	/**
-	 * @var string
-	 */
-	protected $statement = self::QUERY_STATEMENT_INSERT;
+    /**
+     * @var string
+     */
+    protected $statement = self::QUERY_STATEMENT_INSERT;
 
 
-	/**
-	 * QueryInsert constructor.
-	 * @param QueryBuild $queryBuild
-	 * @param string $table
-	 */
-	public function __construct( QueryBuild $queryBuild, $table = null )
-	{
-		parent::__construct( $queryBuild, $table );
-		$this->queryStructure->setElement( QueryStructure::FIELDS, array() );
-	}
+    /**
+     * QueryInsert constructor.
+     * @param QueryBuild $queryBuild
+     * @param string $table
+     */
+    public function __construct(QueryBuild $queryBuild, $table = null)
+    {
+        parent::__construct($queryBuild, $table);
+        $this->queryStructure->setElement(QueryStructure::FIELDS, array());
+    }
 
-	public function getSyntax( $replacement = self::REPLACEMENT_NONE )
-	{
-		$syntax = array();
+    public function getSyntax($replacement = self::REPLACEMENT_NONE)
+    {
+        $syntax = array();
 
-		/**
-		 *  Explain
-		 */
-		$syntax[] = $this->getExplainSyntax();
+        /**
+         *  Explain
+         */
+        $syntax[] = $this->getExplainSyntax();
 
-		/**
-		 * UPDATE statement
-		 */
-		$syntax[] = $this->statement;
+        /**
+         * UPDATE statement
+         */
+        $syntax[] = $this->statement;
 
-		/**
-		 * PRIORITY
-		 */
-		$syntax[] = $this->queryStructure->getElement( QueryStructure::PRIORITY );
+        /**
+         * PRIORITY
+         */
+        $syntax[] = $this->queryStructure->getElement(QueryStructure::PRIORITY);
 
-		/**
-		 * IGNORE clause
-		 */
-		$syntax[] = $this->queryStructure->getElement( QueryStructure::IGNORE ) ? 'IGNORE' : '';
+        /**
+         * IGNORE clause
+         */
+        $syntax[] = $this->queryStructure->getElement(QueryStructure::IGNORE) ? 'IGNORE' : '';
 
-		/**
-		 * INTO table
-		 */
-		$syntax[] = 'INTO ' . $this->queryStructure->getElement( QueryStructure::TABLE );
+        /**
+         * INTO table
+         */
+        $syntax[] = 'INTO ' . $this->queryStructure->getElement(QueryStructure::TABLE);
 
-		/**
-		 * FIELDS update
-		 */
-		$syntax[] = $this->getInsertMultipleRowsSyntax();
+        /**
+         * FIELDS update
+         */
+        $syntax[] = $this->getInsertMultipleRowsSyntax();
 
-		$syntax = implode( ' ', $syntax );
+        $syntax = implode(' ', $syntax);
 
-		return $this->getSyntaxReplace( $syntax, $replacement );
+        return $this->getSyntaxReplace($syntax, $replacement);
 
-	}
+    }
 
-	public function execute()
-	{
-		return DbService::getInstance()->query(
-			$this->getSyntax(),
-			$this->queryStructure->getElement( QueryStructure::BIND_PARAMS )
-		);
-	}
+    public function execute()
+    {
+        return DbService::getInstance()->query($this->getSyntax(), $this->queryStructure->getElement(QueryStructure::BIND_PARAMS));
+    }
 }

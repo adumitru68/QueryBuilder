@@ -12,18 +12,18 @@ namespace Qpdb\QueryBuilder\Traits;
 trait ColumnValidation
 {
 
-	use Objects;
+    use Objects;
 
-	protected function validateColumn( $columnName, array $allowed )
-	{
-		if ( is_integer( $columnName ) )
-			return true;
+    protected function validateColumn($columnName, array $allowed)
+    {
+        if (is_integer($columnName))
+            return true;
 
-		if ( !count( $allowed ) )
-			return true;
+        if (!count($allowed))
+            return true;
 
-		return false;
-	}
+        return false;
+    }
 
 
 }

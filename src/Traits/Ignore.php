@@ -14,17 +14,17 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait Ignore
 {
 
-	use Objects;
+    use Objects;
 
-	/**
-	 * @return $this
-	 */
-	public function ignore()
-	{
-		$this->queryStructure->setElement( QueryStructure::IGNORE, 1 );
+    /**
+     * @return $this
+     */
+    public function ignore()
+    {
+        $this->queryStructure->setElement(QueryStructure::IGNORE, 1);
 
-		return $this;
-	}
+        return $this;
+    }
 
 
 }

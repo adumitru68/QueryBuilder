@@ -2,7 +2,12 @@
     "name": "qpdb/query-builder",
     "type": "library",
     "description": "php class for build MySql queries that prevents mysql injections",
-    "keywords": ["php","pdo","MySql","QueryBuilder"],
+    "keywords": [
+        "php",
+        "pdo",
+        "MySql",
+        "QueryBuilder"
+    ],
     "license": "MIT",
     "authors": [
         {

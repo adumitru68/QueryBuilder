@@ -27,87 +27,81 @@ use Qpdb\QueryBuilder\Traits\WhereAndHavingBuilder;
 class QueryDelete extends QueryStatement implements QueryStatementInterface
 {
 
-	use Limit, Where, WhereAndHavingBuilder, Replacement, OrderBy, SetFields, Ignore, DefaultPriority, LowPriority, Utilities;
+    use Limit, Where, WhereAndHavingBuilder, Replacement, OrderBy, SetFields, Ignore, DefaultPriority, LowPriority, Utilities;
 
-	/**
-	 * @var string
-	 */
-	protected $statement = self::QUERY_STATEMENT_DELETE;
+    /**
+     * @var string
+     */
+    protected $statement = self::QUERY_STATEMENT_DELETE;
 
 
-	/**
-	 * QueryDelete constructor.
-	 * @param QueryBuild $queryBuild
-	 * @param string $table
-	 */
-	public function __construct( QueryBuild $queryBuild, $table = null )
-	{
-		parent::__construct( $queryBuild, $table );
-	}
+    /**
+     * QueryDelete constructor.
+     * @param QueryBuild $queryBuild
+     * @param string $table
+     */
+    public function __construct(QueryBuild $queryBuild, $table = null)
+    {
+        parent::__construct($queryBuild, $table);
+    }
 
-	public function getSyntax( $replacement = self::REPLACEMENT_NONE )
-	{
-		$syntax = array();
+    public function getSyntax($replacement = self::REPLACEMENT_NONE)
+    {
+        $syntax = array();
 
-		/**
-		 *  Explain
-		 */
-		$syntax[] = $this->getExplainSyntax();
+        /**
+         *  Explain
+         */
+        $syntax[] = $this->getExplainSyntax();
 
-		/**
-		 * UPDATE statement
-		 */
-		$syntax[] = $this->statement;
+        /**
+         * UPDATE statement
+         */
+        $syntax[] = $this->statement;
 
-		/**
-		 * PRIORITY
-		 */
-		$syntax[] = $this->queryStructure->getElement( QueryStructure::PRIORITY );
+        /**
+         * PRIORITY
+         */
+        $syntax[] = $this->queryStructure->getElement(QueryStructure::PRIORITY);
 
-		/**
-		 * TABLE update
-		 */
-		$syntax[] = 'FROM ' . $this->queryStructure->getElement( QueryStructure::TABLE );
+        /**
+         * TABLE update
+         */
+        $syntax[] = 'FROM ' . $this->queryStructure->getElement(QueryStructure::TABLE);
 
-		/**
-		 * WHERE clause
-		 */
-		$syntax[] = $this->getWhereSyntax();
+        /**
+         * WHERE clause
+         */
+        $syntax[] = $this->getWhereSyntax();
 
-		/**
-		 * ORDER BY clause
-		 */
-		$syntax[] = $this->getOrderBySyntax();
+        /**
+         * ORDER BY clause
+         */
+        $syntax[] = $this->getOrderBySyntax();
 
-		/**
-		 * LIMIT clause
-		 */
-		$syntax[] = $this->getLimitSyntax();
+        /**
+         * LIMIT clause
+         */
+        $syntax[] = $this->getLimitSyntax();
 
-		$syntax = implode( ' ', $syntax );
+        $syntax = implode(' ', $syntax);
 
-		return $this->getSyntaxReplace( $syntax, $replacement );
-	}
+        return $this->getSyntaxReplace($syntax, $replacement);
+    }
 
-	/**
-	 * @return array|int|null
-	 * @throws QueryException
-	 */
-	public function execute()
-	{
+    /**
+     * @return array|int|null
+     * @throws QueryException
+     */
+    public function execute()
+    {
 
-		if (
-			$this->queryStructure->getElement( ( QueryStructure::WHERE_TRIGGER ) ) &&
-			!count( $this->queryStructure->getElement( QueryStructure::WHERE ) )
-		)
-			throw new QueryException( 'Where or Having clause is required for this statement!', QueryException::QUERY_ERROR_DELETE_NOT_FILTER );
+        if ($this->queryStructure->getElement((QueryStructure::WHERE_TRIGGER)) && !count($this->queryStructure->getElement(QueryStructure::WHERE)))
+            throw new QueryException('Where or Having clause is required for this statement!', QueryException::QUERY_ERROR_DELETE_NOT_FILTER);
 
-		return DbService::getInstance()->query(
-			$this->getSyntax(),
-			$this->queryStructure->getElement( QueryStructure::BIND_PARAMS )
-		);
+        return DbService::getInstance()->query($this->getSyntax(), $this->queryStructure->getElement(QueryStructure::BIND_PARAMS));
 
-	}
+    }
 
 
 }

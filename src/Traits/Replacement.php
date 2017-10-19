@@ -16,40 +16,40 @@ use Qpdb\QueryBuilder\Statements\QueryStatementInterface;
 trait Replacement
 {
 
-	use Objects;
+    use Objects;
 
-	/**
-	 * @param $syntax
-	 * @param int $withReplacement
-	 * @return mixed|string
-	 */
-	private function getSyntaxReplace( $syntax, $withReplacement = QueryStatementInterface::REPLACEMENT_NONE )
-	{
-		$syntax = QueryHelper::clearMultipleSpaces( $syntax );
+    /**
+     * @param $syntax
+     * @param int $withReplacement
+     * @return mixed|string
+     */
+    private function getSyntaxReplace($syntax, $withReplacement = QueryStatementInterface::REPLACEMENT_NONE)
+    {
+        $syntax = QueryHelper::clearMultipleSpaces($syntax);
 
-		if ( !$withReplacement )
-			return $syntax;
+        if (!$withReplacement)
+            return $syntax;
 
-		return $this->replaceValues( $syntax );
-	}
+        return $this->replaceValues($syntax);
+    }
 
-	/**
-	 * @param $syntax
-	 * @return string
-	 */
-	private function replaceValues( $syntax )
-	{
-		$bindParams = $this->queryStructure->getElement( QueryStructure::BIND_PARAMS );
-		$search = array();
-		$replace = array();
-		foreach ( $bindParams as $key => $value ) {
-			$search[] = ':' . $key;
-			$replace[] = DbConnect::getInstance()->quote( $value );
-		}
-		$syntax = str_ireplace( $search, $replace, $syntax );
+    /**
+     * @param $syntax
+     * @return string
+     */
+    private function replaceValues($syntax)
+    {
+        $bindParams = $this->queryStructure->getElement(QueryStructure::BIND_PARAMS);
+        $search = array();
+        $replace = array();
+        foreach ($bindParams as $key => $value) {
+            $search[] = ':' . $key;
+            $replace[] = DbConnect::getInstance()->quote($value);
+        }
+        $syntax = str_ireplace($search, $replace, $syntax);
 
-		return $syntax;
+        return $syntax;
 
-	}
+    }
 
 }

@@ -14,63 +14,61 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
 trait SelectFields
 {
-	use Objects;
+    use Objects;
 
 
-	/**
-	 * @param string|array $fields
-	 * @return $this
-	 * @throws QueryException
-	 */
-	public function fields( $fields )
-	{
+    /**
+     * @param string|array $fields
+     * @return $this
+     * @throws QueryException
+     */
+    public function fields($fields)
+    {
 
-		switch ( gettype( $fields ) ) {
-			case QueryStructure::ELEMENT_TYPE_ARRAY:
+        switch (gettype($fields)) {
+            case QueryStructure::ELEMENT_TYPE_ARRAY:
 
-				$fields = $this->prepareArrayFields( $fields );
+                $fields = $this->prepareArrayFields($fields);
 
-				if ( count( $fields ) )
-					$this->queryStructure->setElement( QueryStructure::FIELDS, implode( ', ', $fields ) );
-				else
-					$this->queryStructure->setElement( QueryStructure::FIELDS, '*' );
-				break;
+                if (count($fields))
+                    $this->queryStructure->setElement(QueryStructure::FIELDS, implode(', ', $fields)); else
+                    $this->queryStructure->setElement(QueryStructure::FIELDS, '*');
+                break;
 
-			case QueryStructure::ELEMENT_TYPE_STRING:
+            case QueryStructure::ELEMENT_TYPE_STRING:
 
-				$fields = trim( $fields );
-				if ( '' !== $fields )
-					$this->queryStructure->setElement( QueryStructure::FIELDS, $fields );
-				else
-					$this->queryStructure->setElement( QueryStructure::FIELDS, '*' );
-				break;
+                $fields = trim($fields);
+                if ('' !== $fields)
+                    $this->queryStructure->setElement(QueryStructure::FIELDS, $fields); else
+                    $this->queryStructure->setElement(QueryStructure::FIELDS, '*');
+                break;
 
-			default:
-				throw new QueryException( 'Invalid fields parameter type', QueryException::QUERY_ERROR_WHERE_INVALID_PARAM_ARRAY );
+            default:
+                throw new QueryException('Invalid fields parameter type', QueryException::QUERY_ERROR_WHERE_INVALID_PARAM_ARRAY);
 
-		}
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param array $fieldsArray
-	 * @return array
-	 * @throws QueryException
-	 */
-	private function prepareArrayFields( $fieldsArray = array() )
-	{
-		$prepareArray = [];
+    /**
+     * @param array $fieldsArray
+     * @return array
+     * @throws QueryException
+     */
+    private function prepareArrayFields($fieldsArray = array())
+    {
+        $prepareArray = [];
 
-		foreach ( $fieldsArray as $field ) {
-			if ( gettype( $field ) !== QueryStructure::ELEMENT_TYPE_STRING )
-				throw new QueryException( 'Invalid select field type!', QueryException::QUERY_ERROR_SELECT_INVALID_FIELD );
+        foreach ($fieldsArray as $field) {
+            if (gettype($field) !== QueryStructure::ELEMENT_TYPE_STRING)
+                throw new QueryException('Invalid select field type!', QueryException::QUERY_ERROR_SELECT_INVALID_FIELD);
 
-			if ( '' !== trim( $field ) )
-				$prepareArray[] = trim( $field );
-		}
+            if ('' !== trim($field))
+                $prepareArray[] = trim($field);
+        }
 
-		return $prepareArray;
-	}
+        return $prepareArray;
+    }
 
 }

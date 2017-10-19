@@ -11,17 +11,17 @@ namespace Qpdb\QueryBuilder\Statements;
 interface QueryStatementInterface
 {
 
-	const REPLACEMENT_NONE = 0;
-	const REPLACEMENT_VALUES = 1;
+    const REPLACEMENT_NONE = 0;
+    const REPLACEMENT_VALUES = 1;
 
-	/**
-	 * @param bool $replacement
-	 * @return string
-	 */
-	public function getSyntax( $replacement = self::REPLACEMENT_NONE );
+    /**
+     * @param bool $replacement
+     * @return string
+     */
+    public function getSyntax($replacement = self::REPLACEMENT_NONE);
 
-	public function execute();
+    public function execute();
 
-	public function getBindParams();
+    public function getBindParams();
 
 }

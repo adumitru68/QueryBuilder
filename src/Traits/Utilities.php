@@ -13,48 +13,48 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait Utilities
 {
 
-	use Objects;
+    use Objects;
 
 
-	/**
-	 * @return $this
-	 */
-	public function explain()
-	{
-		$this->queryStructure->setElement(QueryStructure::EXPLAIN, 1);
+    /**
+     * @return $this
+     */
+    public function explain()
+    {
+        $this->queryStructure->setElement(QueryStructure::EXPLAIN, 1);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	protected function getExplainSyntax()
-	{
-		if($this->queryStructure->getElement(QueryStructure::EXPLAIN))
-			return 'EXPLAIN';
+    protected function getExplainSyntax()
+    {
+        if ($this->queryStructure->getElement(QueryStructure::EXPLAIN))
+            return 'EXPLAIN';
 
-		return '';
-	}
+        return '';
+    }
 
 
-	/**
-	 * @param string $comment
-	 * @return $this
-	 */
-	public function withComment( $comment = '' )
-	{
-		$this->queryStructure->setElement( QueryStructure::QUERY_COMMENT, $comment );
+    /**
+     * @param string $comment
+     * @return $this
+     */
+    public function withComment($comment = '')
+    {
+        $this->queryStructure->setElement(QueryStructure::QUERY_COMMENT, $comment);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param string $identifier
-	 * @return $this
-	 */
-	public function withLogIdentifier( $identifier = null )
-	{
-		$this->queryStructure->setElement( QueryStructure::QUERY_IDENTIFIER, $identifier );
+    /**
+     * @param string $identifier
+     * @return $this
+     */
+    public function withLogIdentifier($identifier = null)
+    {
+        $this->queryStructure->setElement(QueryStructure::QUERY_IDENTIFIER, $identifier);
 
-		return $this;
-	}
+        return $this;
+    }
 
 }
