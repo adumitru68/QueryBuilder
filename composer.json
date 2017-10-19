@@ -1,27 +1,27 @@
 {
-    "name": "qpdb/query-builder",
-    "type": "library",
-    "description": "php class for build MySql queries that prevents mysql injections",
-    "keywords": [
-        "php",
-        "pdo",
-        "MySql",
-        "QueryBuilder"
-    ],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Adrian Dumitru",
-            "email": "adrian.dumitru.68@gmail.com",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=5.4"
-    },
-    "autoload": {
-        "psr-4": {
-            "Qpdb\\QueryBuilder\\": "src/"
-        }
-    }
+	"name": "qpdb/query-builder",
+	"type": "library",
+	"description": "php class for build MySql queries that prevents mysql injections",
+	"keywords": [
+		"php",
+		"pdo",
+		"MySql",
+		"QueryBuilder"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Adrian Dumitru",
+			"email": "adrian.dumitru.68@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"Qpdb\\QueryBuilder\\": "src/"
+		}
+	}
 }

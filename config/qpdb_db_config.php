@@ -7,22 +7,48 @@
 
 return [
 
-    'replicationEnable' => false,
+	'replicationEnable' => false,
 
-    'slave_statements' => ['SELECT'],
+	'slave_statements' => [ 'SELECT' ],
 
-    /**
-     * if not Replication support use only first entry in master_data_connect
-     */
-    'master_data_connect' => [['host' => 'localhost', 'user' => 'guser', 'password' => '1234', 'dbname' => 'classicmodels']],
+	/**
+	 * if not Replication support use only first entry in master_data_connect
+	 */
+	'master_data_connect' => [
+		[
+			'host' => 'localhost',
+			'user' => 'guser',
+			'password' => '1234',
+			'dbname' => 'classicmodels'
+		]
+	],
 
-    /**
-     * Use if replicationEnable is true. Config one or multiple slave connection
-     */
-    'slave_data_connect' => [['host' => 'localhost', 'user' => 'guser', 'password' => '1234', 'dbname' => 'classicmodels'], ['host' => 'localhost', 'user' => 'guser', 'password' => '1234', 'dbname' => 'classicmodels']],
+	/**
+	 * Use if replicationEnable is true. Config one or multiple slave connection
+	 */
+	'slave_data_connect' => [
+		[
+			'host' => 'localhost',
+			'user' => 'guser',
+			'password' => '1234',
+			'dbname' => 'classicmodels'
+		],
+		[
+			'host' => 'localhost',
+			'user' => 'guser',
+			'password' => '1234',
+			'dbname' => 'classicmodels'
+		]
+	],
 
-    'db_log' => ['enable_log_errors' => false, 'enable_log_query_duration' => false, 'log_path_errors' => $_SERVER['DOCUMENT_ROOT'] . '/tmp/db_errors/', 'log_path_query_duration' => $_SERVER['DOCUMENT_ROOT'] . '/tmp/db_query_duration/',],
+	'db_log' => [
+		'enable_log_errors' => false,
+		'enable_log_query_duration' => false,
+		'log_path_errors' => $_SERVER[ 'DOCUMENT_ROOT' ] . '/tmp/db_errors/',
+		'log_path_query_duration' => $_SERVER[ 'DOCUMENT_ROOT' ] . '/tmp/db_query_duration/',
+	],
 
-    'use_table_prefix' => false, 'table_prefix' => 'prefix_',
+	'use_table_prefix' => false,
+	'table_prefix' => 'prefix_',
 
 ];

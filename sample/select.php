@@ -8,13 +8,16 @@
 
 use Qpdb\QueryBuilder\QueryBuild;
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+include_once $_SERVER[ 'DOCUMENT_ROOT' ] . '/vendor/autoload.php';
 
 
-$query = QueryBuild::select('employees22')->fields('lastName, jobTitle, officeCode')->whereEqual('jobTitle', "Sales Rep")->whereIn('officeCode', [2, 3, 4]);
+$query = QueryBuild::select( 'employees22' )
+	->fields( 'lastName, jobTitle, officeCode' )
+	->whereEqual( 'jobTitle', "Sales Rep" )
+	->whereIn( 'officeCode', [ 2, 3, 4 ] );
 
 
-echo "<pre>" . print_r($query->getSyntax(), 1) . "</pre>";
-echo "<pre>" . print_r($query->getBindParams(), 1) . "</pre>";
-echo "<pre>" . print_r($query->getSyntax(1), 1) . "</pre>";
-echo "<pre>" . print_r($query->execute(), 1) . "</pre>";
+echo "<pre>" . print_r( $query->getSyntax(), 1 ) . "</pre>";
+echo "<pre>" . print_r( $query->getBindParams(), 1 ) . "</pre>";
+echo "<pre>" . print_r( $query->getSyntax( 1 ), 1 ) . "</pre>";
+echo "<pre>" . print_r( $query->execute(), 1 ) . "</pre>";
