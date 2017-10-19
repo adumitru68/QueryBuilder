@@ -14,16 +14,16 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait LowPriority
 {
 
-    use Objects;
+	use Objects;
 
-    /**
-     * @return $this
-     */
-    public function lowPriority()
-    {
-        $this->queryStructure->setElement(QueryStructure::PRIORITY, 'LOW_PRIORITY');
+	/**
+	 * @return $this
+	 */
+	public function lowPriority()
+	{
+		$this->queryStructure->setElement( QueryStructure::PRIORITY, 'LOW_PRIORITY' );
 
-        return $this;
-    }
+		return $this;
+	}
 
 }

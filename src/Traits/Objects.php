@@ -13,9 +13,9 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait Objects
 {
 
-    /**
-     * @var QueryStructure
-     */
-    protected $queryStructure;
+	/**
+	 * @var QueryStructure
+	 */
+	protected $queryStructure;
 
 }

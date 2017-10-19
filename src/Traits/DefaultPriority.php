@@ -14,17 +14,17 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait DefaultPriority
 {
 
-    use Objects;
+	use Objects;
 
 
-    /**
-     * @return $this
-     */
-    public function defaultPriority()
-    {
-        $this->queryStructure->setElement(QueryStructure::PRIORITY, '');
+	/**
+	 * @return $this
+	 */
+	public function defaultPriority()
+	{
+		$this->queryStructure->setElement( QueryStructure::PRIORITY, '' );
 
-        return $this;
-    }
+		return $this;
+	}
 
 }

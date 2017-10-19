@@ -15,60 +15,60 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait Distinct
 {
 
-    use Objects;
+	use Objects;
 
 
-    /**
-     * @return $this
-     */
-    public function all()
-    {
-        $this->queryStructure->setElement(QueryStructure::DISTINCT, 0);
+	/**
+	 * @return $this
+	 */
+	public function all()
+	{
+		$this->queryStructure->setElement( QueryStructure::DISTINCT, 0 );
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return $this
-     */
-    public function distinct()
-    {
-        $this->queryStructure->setElement(QueryStructure::DISTINCT, 1);
+	/**
+	 * @return $this
+	 */
+	public function distinct()
+	{
+		$this->queryStructure->setElement( QueryStructure::DISTINCT, 1 );
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return $this
-     */
-    public function distinctRow()
-    {
-        $this->queryStructure->setElement(QueryStructure::DISTINCT, 2);
+	/**
+	 * @return $this
+	 */
+	public function distinctRow()
+	{
+		$this->queryStructure->setElement( QueryStructure::DISTINCT, 2 );
 
-        return $this;
-    }
+		return $this;
+	}
 
 
-    /**
-     * @return string
-     * @throws QueryException
-     */
-    private function getDistinctSyntax()
-    {
-        $useDistinct = $this->queryStructure->getElement(QueryStructure::DISTINCT);
+	/**
+	 * @return string
+	 * @throws QueryException
+	 */
+	private function getDistinctSyntax()
+	{
+		$useDistinct = $this->queryStructure->getElement( QueryStructure::DISTINCT );
 
-        switch ($useDistinct) {
-            case 0:
-                return '';
-            case 1:
-                return 'DISTINCT';
-            case 2:
-                return 'DISTINCTROW';
-            default:
-                throw new QueryException('Invalid distinct type', QueryException::QUERY_ERROR_INVALID_DISTINCT);
-        }
+		switch ( $useDistinct ) {
+			case 0:
+				return '';
+			case 1:
+				return 'DISTINCT';
+			case 2:
+				return 'DISTINCTROW';
+			default:
+				throw new QueryException( 'Invalid distinct type', QueryException::QUERY_ERROR_INVALID_DISTINCT );
+		}
 
-    }
+	}
 
 
 }
