@@ -54,7 +54,7 @@ class DbLog
 	 * @param string $query
 	 * @param \PDOException $e
 	 */
-	public function writeQueryErros( $query, \PDOException $e )
+	public function writeQueryErrors( $query, \PDOException $e )
 	{
 		$backtrace = end( $e->getTrace() );
 		$location = $backtrace[ 'file' ] . " Line: " . $backtrace[ 'line' ];

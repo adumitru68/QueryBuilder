@@ -184,7 +184,7 @@ class DbService
 
 		} catch ( \PDOException $e ) {
 			if ( DbConfig::getInstance()->isEnableLogErrors() ) {
-				DbLog::getInstance()->writeQueryErros( $query, $e );
+				DbLog::getInstance()->writeQueryErrors( $query, $e );
 			}
 			throw new DbException( 'Database query runtime error!', DbException::DB_QUERY_ERROR );
 		}
