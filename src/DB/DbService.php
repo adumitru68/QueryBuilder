@@ -134,6 +134,7 @@ class DbService
 	/**
 	 * @param string $query
 	 * @param array $parameters
+	 * @throws DbException
 	 */
 	private function queryInit( $query, $parameters = [] )
 	{
@@ -183,9 +184,9 @@ class DbService
 
 		} catch ( \PDOException $e ) {
 			if ( DbConfig::getInstance()->isEnableLogErrors() ) {
-				DbLog::getInstance()->writeQueryErros( $query, $e->getCode(), $e->getMessage() );
+				DbLog::getInstance()->writeQueryErros( $query, $e );
 			}
-			throw new DbException( 'Database error!', DbException::DB_QUERY_ERROR );
+			throw new DbException( 'Database query runtime error!', DbException::DB_QUERY_ERROR );
 		}
 
 		/**

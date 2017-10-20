@@ -110,7 +110,7 @@ class DbConnect
 			$pdo->setAttribute( \PDO::ATTR_EMULATE_PREPARES, false );
 		} catch ( \PDOException $e ) {
 			if ( DbConfig::getInstance()->isEnableLogErrors() ) {
-				DbLog::getInstance()->writeQueryErros( 'Connection fail!', $e->getCode(), $e->getMessage() );
+				DbLog::getInstance()->writeQueryErros( 'Connection fail!', $e );
 			}
 			throw new DbException( 'Database connection error!', DbException::DB_CONNECTION_ERROR );
 		}

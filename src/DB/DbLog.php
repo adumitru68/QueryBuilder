@@ -51,19 +51,19 @@ class DbLog
 	}
 
 	/**
-	 * @param $query
-	 * @param $duration
+	 * @param string $query
+	 * @param \PDOException $e
 	 */
-	public function writeQueryErros( $query, $code, $error )
+	public function writeQueryErros( $query, \PDOException $e )
 	{
-		$backtrace = end( debug_backtrace() );
+		$backtrace = end( $e->getTrace() );
 		$location = $backtrace[ 'file' ] . " Line: " . $backtrace[ 'line' ];
 
 		$this->path = DbConfig::getInstance()->getLogPathErrors(); //my comments
 		$message = "Query: $query" . "\r\n";
 		$message .= "Location: $location\r\n";
-		$message .= "Error code : " . $code . "\r\n";
-		$message .= "" . $error;
+		$message .= "Error code : " . $e->getCode() . "\r\n";
+		$message .= "" . $e->getMessage();
 
 		$this->write( $message );
 	}
