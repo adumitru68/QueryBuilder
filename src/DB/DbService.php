@@ -25,6 +25,10 @@ class DbService
 	const ON_ERROR_THROW_EXCEPTION = 1;
 	const ON_ERROR_RETURN_ERROR = 2;
 
+	const QUERY_RESULT_TYPE_ARRAY = 'array';
+	const QUERY_RESULT_TYPE_NUMBER = 'number';
+	const QUERY_RESULT_TYPE_NULL = 'null';
+
 	/**
 	 * @var DbService
 	 */
@@ -45,6 +49,11 @@ class DbService
 	 */
 	private $parameters = [];
 
+	/**
+	 * @var string;
+	 */
+	private $lastStatement;
+
 
 	/**
 	 * @param string $query
@@ -55,28 +64,24 @@ class DbService
 	public function query( $query, $params = null, $fetchMode = \PDO::FETCH_ASSOC )
 	{
 
-		$query = trim( str_replace( "\r", " ", $query ) );
-		$statement = self::getQueryStatement( $query );
-
 		$this->queryInit( $query, $params );
+		$resultType = $this->getResultType( $this->lastStatement );
 
-		if ( $statement === self::QUERY_TYPE_SELECT ||
-			$statement === self::QUERY_TYPE_SHOW ||
-			$statement === self::QUERY_TYPE_DESC ||
-			$statement === self::QUERY_TYPE_EXPLAIN
-		) {
-			return $this->sQuery->fetchAll( $fetchMode );
+		switch ( $resultType ) {
+			case self::QUERY_RESULT_TYPE_ARRAY:
+				$result = $this->sQuery->fetchAll( $fetchMode );
+				break;
+			case self::QUERY_RESULT_TYPE_NUMBER:
+				$result = $this->sQuery->rowCount();
+				break;
+			default:
+				$result = null;
+				break;
 		}
-		elseif ( $statement === self::QUERY_TYPE_INSERT ||
-			$statement === self::QUERY_TYPE_UPDATE ||
-			$statement === self::QUERY_TYPE_DELETE
-		) {
-			return $this->sQuery->rowCount();
-		}
-		else {
 
-			return NULL;
-		}
+		$this->sQuery->closeCursor();
+
+		return $result;
 	}
 
 	/**
@@ -88,10 +93,7 @@ class DbService
 	{
 		$this->queryInit( $query, $params );
 
-		$query = trim( str_replace( "\r", " ", $query ) );
-		$statement = self::getQueryStatement( $query );
-
-		if ( $statement === self::QUERY_TYPE_EXPLAIN )
+		if ( $this->lastStatement === self::QUERY_TYPE_EXPLAIN )
 			return $this->sQuery->fetchAll( \PDO::FETCH_ASSOC );
 
 		$Columns = $this->sQuery->fetchAll( \PDO::FETCH_NUM );
@@ -105,14 +107,17 @@ class DbService
 		return $column;
 	}
 
+	/**
+	 * @param string $query
+	 * @param array $params
+	 * @param int $fetchmode
+	 * @return array|mixed
+	 */
 	public function row( $query, $params = null, $fetchmode = \PDO::FETCH_ASSOC )
 	{
 		$this->queryInit( $query, $params );
 
-		$query = trim( str_replace( "\r", " ", $query ) );
-		$statement = self::getQueryStatement( $query );
-
-		if ( $statement === self::QUERY_TYPE_EXPLAIN )
+		if ( $this->lastStatement === self::QUERY_TYPE_EXPLAIN )
 			return $this->sQuery->fetchAll( \PDO::FETCH_ASSOC );
 
 		$result = $this->sQuery->fetch( $fetchmode );
@@ -121,13 +126,48 @@ class DbService
 		return $result;
 	}
 
+	/**
+	 * @param string $query
+	 * @param array $params
+	 * @return mixed|array
+	 */
 	public function single( $query, $params = null )
 	{
 		$this->queryInit( $query, $params );
+
+		if ( $this->lastStatement === self::QUERY_TYPE_EXPLAIN )
+			return $this->sQuery->fetchAll( \PDO::FETCH_ASSOC );
+
 		$result = $this->sQuery->fetchColumn();
 		$this->sQuery->closeCursor(); // Frees up the connection to the server so that other SQL statements may be issued
 
 		return $result;
+	}
+
+
+	/**
+	 * @param string $statement
+	 * @return string
+	 */
+	private function getResultType( $statement )
+	{
+		switch ( $statement ) {
+
+			case self::QUERY_TYPE_SELECT:
+			case self::QUERY_TYPE_SHOW:
+			case self::QUERY_TYPE_DESC:
+			case self::QUERY_TYPE_EXPLAIN:
+				return self::QUERY_RESULT_TYPE_ARRAY;
+
+			case self::QUERY_TYPE_INSERT:
+			case self::QUERY_TYPE_UPDATE:
+			case self::QUERY_TYPE_DELETE:
+				return self::QUERY_RESULT_TYPE_NUMBER;
+
+			default:
+				return self::QUERY_RESULT_TYPE_NULL;
+
+		}
 	}
 
 
@@ -138,7 +178,8 @@ class DbService
 	 */
 	private function queryInit( $query, $parameters = [] )
 	{
-		$this->pdo = DbConnect::getInstance()->getConnection( self::getQueryStatement( $query ) );
+		$this->lastStatement = self::getQueryStatement( $query );
+		$this->pdo = DbConnect::getInstance()->getConnection( $this->lastStatement );
 		$startQueryTime = microtime( true );
 
 		try {

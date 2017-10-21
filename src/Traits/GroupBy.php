@@ -38,7 +38,7 @@ trait GroupBy
 
 
 	/**
-	 * @param $column
+	 * @param int|string $column
 	 * @param array $allowedColumns
 	 * @return $this
 	 * @throws QueryException

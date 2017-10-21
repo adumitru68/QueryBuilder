@@ -7,7 +7,7 @@
 
 return [
 
-	'replicationEnable' => false,
+	'replicationEnable' => true,
 
 	'slave_statements' => [ 'SELECT' ],
 
