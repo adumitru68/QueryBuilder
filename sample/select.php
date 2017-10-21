@@ -14,18 +14,8 @@ include_once $_SERVER[ 'DOCUMENT_ROOT' ] . '/vendor/autoload.php';
 $query = QueryBuild::select( 'employees' )
 	->fields( 'lastName, jobTitle, officeCode' )
 	->whereEqual( 'jobTitle', "Sales Rep" )
-	->whereIn( 'officeCode', [ 2, 3, 4 ] );
+	->whereIn( 'officeCode', [ 2, 3, 4 ] )->orderBy('lastName')->havingEqual('officeCode',2);
 
-$count = QueryBuild::select( 'employees' )
-	->fields( 'lastName, jobTitle, officeCode' )
-	->whereEqual( 'jobTitle', "Sales Rep" )
-	->whereIn( 'officeCode', [ 2, 3, 4 ] )
-	->count();
-
-$desc = QueryBuild::query('show tables');
-
-echo "<pre>" . print_r( $count->execute(), 1 ) . "</pre>";
-echo "<pre>" . print_r( $desc->execute(), 1 ) . "</pre>";
 
 
 echo "<pre>" . print_r( $query->getSyntax(), 1 ) . "</pre>";

@@ -268,6 +268,7 @@ class DbService
 		}
 	}
 
+
 	/**
 	 * @param array $parray
 	 */
@@ -287,15 +288,13 @@ class DbService
 	 */
 	public function bind( $para, $value )
 	{
-		$this->parameters[ sizeof( $this->parameters ) ] = [ ":" . $para, $value ];
+		$this->parameters[] = [ ":" . $para, $value ];
 	}
-
 
 	public function CloseConnection()
 	{
 		$this->pdo = null;
 	}
-
 
 	/**
 	 * @param $queryString

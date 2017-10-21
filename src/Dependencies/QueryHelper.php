@@ -46,36 +46,6 @@ class QueryHelper
 		return is_numeric( $val ) && floor( $val ) != $val;
 	}
 
-	public static function isValidOrderBy( $order_by_parameter )
-	{
-
-		$columns = array( 'first_name', 'last_name', 'zip', 'created_at' );
-
-		$parts = preg_split( "/[\s,]+/", $order_by_parameter );
-
-		foreach ( $parts as $part ) {
-			$subparts = preg_split( "/\s+/", $part );
-
-			if ( count( $subparts ) < 0 || count( $subparts ) > 2 ) {
-				// Too many or too few parts.
-				return false;
-			}
-
-			if ( !in_array( $subparts[ 0 ], $columns ) ) {
-				// Column name is invalid.
-				return false;
-			}
-
-			if ( count( $subparts ) == 2 && !in_array( strtoupper( $subparts[ 1 ] ), array( 'ASC', 'DESC' ) ) ) {
-				// ASC or DESC is invalid
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-
 	/**
 	 * @param $string
 	 * @param string $delimiter

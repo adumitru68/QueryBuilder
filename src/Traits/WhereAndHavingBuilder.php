@@ -173,7 +173,7 @@ trait WhereAndHavingBuilder
 			$where = ' NOT ( ' . $where . ' ) ';
 		}
 
-		$where = 'WHERE ' . $where;
+		$where = $clauseType . ' ' . $where;
 
 		return QueryHelper::clearMultipleSpaces( $where );
 	}
