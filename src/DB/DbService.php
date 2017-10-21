@@ -18,7 +18,6 @@ class DbService
 	const QUERY_TYPE_REPLACE = 'REPLACE';
 	const QUERY_TYPE_SHOW = 'SHOW';
 	const QUERY_TYPE_DESC = 'DESC';
-	const QUERY_TYPE_EMPTY = 'EMPTY';
 	const QUERY_TYPE_OTHER = 'OTHER';
 	const QUERY_TYPE_EXPLAIN = 'EXPLAIN';
 
@@ -54,6 +53,31 @@ class DbService
 	 */
 	private $lastStatement;
 
+	/**
+	 * @var bool
+	 */
+	private $forceToMaster = false;
+
+
+	/**
+	 * @return $this
+	 */
+	public function withMasterOnly()
+	{
+		$this->forceToMaster = true;
+
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function withOutMasterOnly()
+	{
+		$this->forceToMaster = false;
+
+		return $this;
+	}
 
 	/**
 	 * @param string $query
@@ -170,6 +194,15 @@ class DbService
 		}
 	}
 
+	/**
+	 * Create necessary type connection
+	 */
+	private function createPdoConnection()
+	{
+		$this->pdo = $this->forceToMaster
+			? DbConnect::getInstance()->getMasterConnection()
+			: DbConnect::getInstance()->getConnection( $this->lastStatement );
+	}
 
 	/**
 	 * @param string $query
@@ -179,7 +212,7 @@ class DbService
 	private function queryInit( $query, $parameters = [] )
 	{
 		$this->lastStatement = self::getQueryStatement( $query );
-		$this->pdo = DbConnect::getInstance()->getConnection( $this->lastStatement );
+		$this->createPdoConnection();
 		$startQueryTime = microtime( true );
 
 		try {
@@ -267,31 +300,10 @@ class DbService
 	{
 		$queryString = trim( $queryString );
 
-		if ( $queryString === '' ) {
-			return self::QUERY_TYPE_EMPTY;
-		}
-
-		if ( preg_match( '/^(select|insert|update|delete|replace|show|desc|explain)[\s]+/i', $queryString, $matches ) ) {
-			switch ( strtolower( $matches[ 1 ] ) ) {
-				case 'select':
-					return self::QUERY_TYPE_SELECT;
-				case 'insert':
-					return self::QUERY_TYPE_INSERT;
-				case 'update':
-					return self::QUERY_TYPE_UPDATE;
-				case 'delete':
-					return self::QUERY_TYPE_DELETE;
-				case 'replace':
-					return self::QUERY_TYPE_REPLACE;
-				case 'explain':
-					return self::QUERY_TYPE_EXPLAIN;
-				default:
-					return self::QUERY_TYPE_OTHER;
-			}
-		}
-		else {
+		if ( preg_match( '/^(select|insert|update|delete|replace|show|desc|explain)[\s]+/i', $queryString, $matches ) )
+			return strtoupper( $matches[ 1 ] );
+		else
 			return self::QUERY_TYPE_OTHER;
-		}
 	}
 
 	/**
