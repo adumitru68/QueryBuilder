@@ -18,9 +18,9 @@ trait Join
 
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function innerJoin( $tableJoin, $onLeft, $onRight = null )
@@ -29,9 +29,9 @@ trait Join
 	}
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function leftJoin( $tableJoin, $onLeft, $onRight = null )
@@ -40,9 +40,9 @@ trait Join
 	}
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function leftOuterJoin( $tableJoin, $onLeft, $onRight = null )
@@ -51,9 +51,9 @@ trait Join
 	}
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function rightJoin( $tableJoin, $onLeft, $onRight = null )
@@ -62,9 +62,9 @@ trait Join
 	}
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function rightOuterJoin( $tableJoin, $onLeft, $onRight = null )
@@ -73,9 +73,9 @@ trait Join
 	}
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function fullJoin( $tableJoin, $onLeft, $onRight = null )
@@ -84,9 +84,9 @@ trait Join
 	}
 
 	/**
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	public function fullOuterJoin( $tableJoin, $onLeft, $onRight = null )
@@ -106,10 +106,9 @@ trait Join
 	}
 
 	/**
-	 * @param $typeJoin
-	 * @param $tableJoin
-	 * @param $onLeft
-	 * @param null $onRight
+	 * @param string $tableJoin
+	 * @param string $onLeft
+	 * @param string $onRight
 	 * @return $this
 	 */
 	private function makeJoin( $typeJoin, $tableJoin, $onLeft, $onRight = null )
