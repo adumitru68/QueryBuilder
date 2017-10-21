@@ -20,7 +20,7 @@ trait Replacement
 
 	/**
 	 * @param $syntax
-	 * @param int $withReplacement
+	 * @param int|bool $withReplacement
 	 * @return mixed|string
 	 */
 	private function getSyntaxReplace( $syntax, $withReplacement = QueryStatementInterface::REPLACEMENT_NONE )
@@ -34,7 +34,7 @@ trait Replacement
 	}
 
 	/**
-	 * @param $syntax
+	 * @param string $syntax
 	 * @return string
 	 */
 	private function replaceValues( $syntax )
