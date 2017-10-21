@@ -216,46 +216,17 @@ class DbService
 		$startQueryTime = microtime( true );
 
 		try {
-
 			/**
 			 * Prepare query
 			 */
 			$this->sQuery = $this->pdo->prepare( $query );
-
-			/**
-			 * Add parameters to the parameter array
-			 */
-			if ( self::isArrayAssoc( $parameters ) )
-				$this->bindMore( $parameters );
-			else
-				foreach ( $parameters as $key => $val )
-					$this->parameters[] = array( $key + 1, $val );
-
-			if ( count( $this->parameters ) ) {
-				foreach ( $this->parameters as $param => $value ) {
-					if ( is_int( $value[ 1 ] ) ) {
-						$type = \PDO::PARAM_INT;
-					}
-					elseif ( is_bool( $value[ 1 ] ) ) {
-						$type = \PDO::PARAM_BOOL;
-					}
-					elseif ( is_null( $value[ 1 ] ) ) {
-						$type = \PDO::PARAM_NULL;
-					}
-					else {
-						$type = \PDO::PARAM_STR;
-					}
-					$this->sQuery->bindValue( $value[ 0 ], $value[ 1 ], $type );
-				}
-			}
-
+			$this->prepareParams($parameters);
+			$this->pdoBindValues();
 			$this->sQuery->execute();
-
 			if ( DbConfig::getInstance()->isEnableLogQueryDuration() ) {
 				$duration = microtime( true ) - $startQueryTime;
 				DbLog::getInstance()->writeQueryDuration( $query, $duration );
 			}
-
 		} catch ( \PDOException $e ) {
 			if ( DbConfig::getInstance()->isEnableLogErrors() ) {
 				DbLog::getInstance()->writeQueryErrors( $query, $e );
@@ -269,7 +240,37 @@ class DbService
 		$this->parameters = array();
 	}
 
+	private function prepareParams( array $parameters )
+	{
+		if ( self::isArrayAssoc( $parameters ) )
+			$this->bindMore( $parameters );
+		else
+			foreach ( $parameters as $key => $val )
+				$this->parameters[] = array( $key + 1, $val );
+	}
 
+	private function pdoBindValues()
+	{
+		foreach ( $this->parameters as $param => $value ) {
+			if ( is_int( $value[ 1 ] ) ) {
+				$type = \PDO::PARAM_INT;
+			}
+			elseif ( is_bool( $value[ 1 ] ) ) {
+				$type = \PDO::PARAM_BOOL;
+			}
+			elseif ( is_null( $value[ 1 ] ) ) {
+				$type = \PDO::PARAM_NULL;
+			}
+			else {
+				$type = \PDO::PARAM_STR;
+			}
+			$this->sQuery->bindValue( $value[ 0 ], $value[ 1 ], $type );
+		}
+	}
+
+	/**
+	 * @param array $parray
+	 */
 	public function bindMore( $parray )
 	{
 		if ( !count( $this->parameters ) && is_array( $parray ) ) {
@@ -280,6 +281,10 @@ class DbService
 		}
 	}
 
+	/**
+	 * @param int|string $para
+	 * @param mixed $value
+	 */
 	public function bind( $para, $value )
 	{
 		$this->parameters[ sizeof( $this->parameters ) ] = [ ":" . $para, $value ];

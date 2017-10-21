@@ -22,7 +22,10 @@ $count = QueryBuild::select( 'employees' )
 	->whereIn( 'officeCode', [ 2, 3, 4 ] )
 	->count();
 
+$desc = QueryBuild::query('show tables');
+
 echo "<pre>" . print_r( $count->execute(), 1 ) . "</pre>";
+echo "<pre>" . print_r( $desc->execute(), 1 ) . "</pre>";
 
 
 echo "<pre>" . print_r( $query->getSyntax(), 1 ) . "</pre>";
