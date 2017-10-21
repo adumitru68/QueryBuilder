@@ -19,6 +19,21 @@ trait WhereAndHavingBuilder
 
 	use Objects;
 
+	/**
+	 * @var string|array
+	 */
+	private $temporaryParam;
+
+	/**
+	 * @var string
+	 */
+	private $temporaryGlue;
+
+	/**
+	 * @var string;
+	 */
+	private $temporaryClauseType;
+
 
 	/**
 	 * @param $param
@@ -35,60 +50,71 @@ trait WhereAndHavingBuilder
 			return $this;
 		}
 
-		$param = $this->validateWhereParam( $param );
+		$this->temporaryParam = $this->validateWhereParam( $param );
+		$this->temporaryGlue = $glue;
+		$this->temporaryClauseType = $clauseType;
 
-		$field = $param[ 0 ];
-		$value = $param[ 1 ];
-		$operator = $param[ 2 ];
+		$this->buildCondition();
+
+		return $this;
+	}
+
+	private function buildCondition()
+	{
+		$operator = $this->temporaryParam[ 2 ];
 
 		switch ( $operator ) {
 			case 'BETWEEN':
 			case 'NOT BETWEEN':
 			case '!BETWEEN':
-				$min = $value[ 0 ];
-				$max = $value[ 1 ];
-				$body = [
-					$field,
-					$operator,
-					$this->queryStructure->bindParam( 'min', $min ),
-					'AND',
-					$this->queryStructure->bindParam( 'max', $max )
-				];
-				$body = implode( ' ', $body );
-				$this->queryStructure->setElement( $clauseType, array( 'glue' => $glue, 'body' => $body, 'type' => 'cond' ) );
+				$this->makeBetweenCondition();
 				break;
-
 			case 'IN':
 			case 'NOT IN':
 			case '!IN':
-				if ( is_a( $value, QuerySelect::class ) )
-					return $this->inSelectObject( $field, $value, $operator, $glue, $clauseType );
-				elseif ( is_array( $value ) )
-					return $this->inArray( $field, $value, $operator, $glue, $clauseType );
+				$this->makeInCondition();
 				break;
-
 			default:
-				$valuePdoString = $this->queryStructure->bindParam( $field, $value );
-				$body = $field . ' ' . $operator . ' ' . $valuePdoString;
-				$this->queryStructure->setElement( $clauseType, array( 'glue' => $glue, 'body' => $body, 'type' => 'cond' ) );
-
+				$valuePdoString = $this->queryStructure->bindParam( $this->temporaryParam[ 0 ], $this->temporaryParam[ 1 ] );
+				$body = $this->temporaryParam[ 0 ] . ' ' . $operator . ' ' . $valuePdoString;
+				$this->registerCondition($body);
+				break;
 		}
-
-		return $this;
-
 	}
 
-
-	/**
-	 * @param $field
-	 * @param QuerySelect $subquerySelect
-	 * @param $operator
-	 * @param string $glue
-	 * @param $clauseType
-	 * @return $this
-	 */
-	private function inSelectObject( $field, QuerySelect $subquerySelect, $operator, $glue = 'AND', $clauseType )
+	private function makeBetweenCondition()
 	{
+		$field = $this->temporaryParam[ 0 ];
+		$value = $this->temporaryParam[ 1 ];
+		$operator = $this->temporaryParam[ 2 ];
+
+		$min = $value[ 0 ];
+		$max = $value[ 1 ];
+		$body = [
+			$field,
+			$operator,
+			$this->queryStructure->bindParam( 'min', $min ),
+			'AND',
+			$this->queryStructure->bindParam( 'max', $max )
+		];
+		$body = implode( ' ', $body );
+		$this->registerCondition($body);
+	}
+
+	private function makeInCondition()
+	{
+		if ( is_a( $this->temporaryParam[ 1 ], QuerySelect::class ) )
+			$this->inQuerySelect();
+		elseif ( is_array( $this->temporaryParam[ 1 ] ) )
+			$this->inArray();
+	}
+
+	private function inQuerySelect()
+	{
+		$field = $this->temporaryParam[0];
+		/** @var QuerySelect $subquerySelect */
+		$subquerySelect = $this->temporaryParam[1];
+		$operator = $this->temporaryParam[2];
 		$subquerySelectParams = $subquerySelect->getBindParams();
 		foreach ( $subquerySelectParams as $key => $value ) {
 			$this->queryStructure->setParams( $key, $value );
@@ -101,21 +127,16 @@ trait WhereAndHavingBuilder
 			' )'
 		];
 		$body = implode( ' ', $body );
-		$this->queryStructure->setElement( $clauseType, array( 'glue' => $glue, 'body' => $body, 'type' => 'cond' ) );
+		$this->registerCondition($body);
 
-		return $this;
 	}
 
-	/**
-	 * @param $field
-	 * @param array $value
-	 * @param $operator
-	 * @param $glue
-	 * @param $clauseType
-	 * @return $this
-	 */
-	private function inArray( $field, array $value, $operator, $glue, $clauseType )
+	private function inArray()
 	{
+		$field = $this->temporaryParam[0];
+		$value = $this->temporaryParam[1];
+		$operator = $this->temporaryParam[2];
+
 		$pdoArray = array();
 		foreach ( $value as $item ) {
 			$pdoArray[] = $this->queryStructure->bindParam( 'a', $item );
@@ -127,9 +148,15 @@ trait WhereAndHavingBuilder
 		];
 		$body = implode( ' ', $body );
 		$body = QueryHelper::clearMultipleSpaces( $body );
-		$this->queryStructure->setElement( $clauseType, array( 'glue' => $glue, 'body' => $body, 'type' => 'cond' ) );
+		$this->registerCondition($body);
+	}
 
-		return $this;
+	/**
+	 * @param string|array $body
+	 */
+	private function registerCondition( $body )
+	{
+		$this->queryStructure->setElement( $this->temporaryClauseType, array( 'glue' => $this->temporaryGlue, 'body' => $body, 'type' => 'cond' ) );
 	}
 
 
@@ -173,7 +200,7 @@ trait WhereAndHavingBuilder
 			$where = ' NOT ( ' . $where . ' ) ';
 		}
 
-		$where = $clauseType . ' ' . $where;
+		$where = strtoupper( $clauseType ) . ' ' . $where;
 
 		return QueryHelper::clearMultipleSpaces( $where );
 	}
