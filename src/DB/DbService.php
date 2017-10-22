@@ -324,6 +324,24 @@ class DbService
 
 
 	/**
+	 * @return bool
+	 */
+	public function isMasterOnly()
+	{
+		return $this->forceToMaster;
+	}
+
+
+	/**
+	 * @return DbService
+	 */
+	public static function newInstance()
+	{
+		return new self();
+	}
+
+
+	/**
 	 * @return DbService
 	 */
 	public static function getInstance()
