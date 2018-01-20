@@ -71,10 +71,35 @@ class DbConfig
 	/**
 	 * @param string $fileConfig
 	 * @return $this
+	 * @deprecated
 	 */
 	public function withFileConfig( $fileConfig )
 	{
 		$this->dbConfig = require $fileConfig;
+		$this->buildConfig();
+
+		return $this;
+	}
+
+	/**
+	 * @param $fileConfig
+	 * @return $this
+	 */
+	public function withConfigPath( $fileConfig )
+	{
+		$this->dbConfig = require $fileConfig;
+		$this->buildConfig();
+
+		return $this;
+	}
+
+	/**
+	 * @param array $dbConfig
+	 * @return $this
+	 */
+	public function withConfigArray ( array $dbConfig )
+	{
+		$this->dbConfig = $dbConfig;
 		$this->buildConfig();
 
 		return $this;
