@@ -268,7 +268,7 @@ class QueryStructure
 	 */
 	public function index( $fieldName = '' )
 	{
-		return trim( $fieldName ) . '_' . $this->syntaxEL[ self::INSTANCE ] . '_' . ++$this->counter . 'i';
+		return QueryHelper::alphaNum( $fieldName ) . '_' . $this->syntaxEL[ self::INSTANCE ] . '_' . ++$this->counter . 'i';
 	}
 
 }
