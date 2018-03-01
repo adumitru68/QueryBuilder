@@ -7,7 +7,7 @@
 
 return [
 
-	'replicationEnable' => true,
+	'replicationEnable' => false,
 
 	'slave_statements' => [ 'SELECT' ],
 
@@ -19,7 +19,7 @@ return [
 			'host' => 'localhost',
 			'user' => 'guser',
 			'password' => '1234',
-			'dbname' => 'classicmodels'
+			'dbname' => 'vertex_physio_app'
 		]
 	],
 

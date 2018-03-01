@@ -39,8 +39,11 @@ trait SelectFields
 			case QueryStructure::ELEMENT_TYPE_STRING:
 
 				$fields = trim( $fields );
-				if ( '' !== $fields )
-					$this->queryStructure->setElement( QueryStructure::FIELDS, $fields );
+				if ( '' !== $fields ) {
+					$fields = explode( ',', $fields );
+					$fields = $this->prepareArrayFields( $fields );
+					$this->queryStructure->setElement( QueryStructure::FIELDS, implode( ', ', $fields ) );
+				}
 				else
 					$this->queryStructure->setElement( QueryStructure::FIELDS, '*' );
 				break;
@@ -67,7 +70,7 @@ trait SelectFields
 				throw new QueryException( 'Invalid select field type!', QueryException::QUERY_ERROR_SELECT_INVALID_FIELD );
 
 			if ( '' !== trim( $field ) )
-				$prepareArray[] = trim( $field );
+				$prepareArray[] = $this->queryStructure->prepare( $field );
 		}
 
 		return $prepareArray;

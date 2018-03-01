@@ -77,7 +77,7 @@ trait WhereAndHavingBuilder
 			default:
 				$valuePdoString = $this->queryStructure->bindParam( $this->temporaryParam[ 0 ], $this->temporaryParam[ 1 ] );
 				$body = $this->temporaryParam[ 0 ] . ' ' . $operator . ' ' . $valuePdoString;
-				$this->registerCondition($body);
+				$this->registerCondition( $body );
 				break;
 		}
 	}
@@ -98,7 +98,7 @@ trait WhereAndHavingBuilder
 			$this->queryStructure->bindParam( 'max', $max )
 		];
 		$body = implode( ' ', $body );
-		$this->registerCondition($body);
+		$this->registerCondition( $body );
 	}
 
 	private function makeInCondition()
@@ -111,10 +111,10 @@ trait WhereAndHavingBuilder
 
 	private function inQuerySelect()
 	{
-		$field = $this->temporaryParam[0];
+		$field = $this->temporaryParam[ 0 ];
 		/** @var QuerySelect $subquerySelect */
-		$subquerySelect = $this->temporaryParam[1];
-		$operator = $this->temporaryParam[2];
+		$subquerySelect = $this->temporaryParam[ 1 ];
+		$operator = $this->temporaryParam[ 2 ];
 		$subquerySelectParams = $subquerySelect->getBindParams();
 		foreach ( $subquerySelectParams as $key => $value ) {
 			$this->queryStructure->setParams( $key, $value );
@@ -127,15 +127,15 @@ trait WhereAndHavingBuilder
 			' )'
 		];
 		$body = implode( ' ', $body );
-		$this->registerCondition($body);
+		$this->registerCondition( $body );
 
 	}
 
 	private function inArray()
 	{
-		$field = $this->temporaryParam[0];
-		$value = $this->temporaryParam[1];
-		$operator = $this->temporaryParam[2];
+		$field = $this->temporaryParam[ 0 ];
+		$value = $this->temporaryParam[ 1 ];
+		$operator = $this->temporaryParam[ 2 ];
 
 		$pdoArray = array();
 		foreach ( $value as $item ) {
@@ -148,7 +148,7 @@ trait WhereAndHavingBuilder
 		];
 		$body = implode( ' ', $body );
 		$body = QueryHelper::clearMultipleSpaces( $body );
-		$this->registerCondition($body);
+		$this->registerCondition( $body );
 	}
 
 	/**
@@ -218,6 +218,7 @@ trait WhereAndHavingBuilder
 		if ( count( $param ) == 2 )
 			$param[] = '=';
 
+		$param[ 0 ] = $this->queryStructure->prepare( $param[ 0 ] );
 		$param[ 2 ] = trim( strtoupper( $param[ 2 ] ) );
 		$param[ 2 ] = QueryHelper::clearMultipleSpaces( $param[ 2 ] );
 

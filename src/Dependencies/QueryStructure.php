@@ -77,6 +77,18 @@ class QueryStructure
 	 */
 	private $counter = 0;
 
+	/**
+	 * @var array
+	 */
+	private $reserved = [
+		'order',
+		'select',
+		'insert',
+		'update',
+		'alter',
+		'delete'
+	];
+
 
 	/**
 	 * QueryStructure constructor.
@@ -260,6 +272,15 @@ class QueryStructure
 		$this->syntaxEL[ QueryStructure::BIND_PARAMS ][ $pdoName ] = $value;
 
 		return ':' . $pdoName;
+	}
+
+	public function prepare( $fieldName = '' )
+	{
+		$fieldName = trim( $fieldName );
+		if ( in_array( $fieldName, $this->reserved ) )
+			$fieldName = '`' . $fieldName . '`';
+
+		return $fieldName;
 	}
 
 	/**

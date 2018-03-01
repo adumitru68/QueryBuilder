@@ -24,6 +24,7 @@ trait SetFields
 	 */
 	public function setField( $fieldName, $fieldValue )
 	{
+		$fieldName = $this->queryStructure->prepare($fieldName);
 		$valuePdoString = $this->queryStructure->bindParam( $fieldName, $fieldValue );
 		$this->queryStructure->setElement( QueryStructure::SET_FIELDS, "$fieldName = $valuePdoString" );
 
