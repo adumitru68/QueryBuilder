@@ -26,7 +26,7 @@ trait GroupBy
 	 */
 	public function groupBy( $column, array $allowedColumns = [] )
 	{
-		$column = trim( $column );
+		$column = $this->queryStructure->prepare($column);
 
 		if ( !$this->validateColumn( $column, $allowedColumns ) )
 			throw new QueryException( 'Invalid column name in GROUP BY clause', QueryException::QUERY_ERROR_INVALID_COLUMN_NAME );
@@ -45,7 +45,7 @@ trait GroupBy
 	 */
 	public function groupByDesc( $column, array $allowedColumns = [] )
 	{
-		$column = trim( $column );
+		$column = $this->queryStructure->prepare($column);
 
 		if ( !$this->validateColumn( $column, $allowedColumns ) )
 			throw new QueryException( 'Invalid column name in GROUP BY clause', QueryException::QUERY_ERROR_INVALID_COLUMN_NAME );
