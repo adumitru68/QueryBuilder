@@ -140,9 +140,9 @@ class QueryStructure
 
 	private function makeStatementInstance()
 	{
-		$instance = QueryHelper::random( 5 );
+		$instance = QueryHelper::random( 4 );
 		while ( in_array( $instance, self::$usedInstanceIds ) ) {
-			$instance = QueryHelper::random( 7 );
+			$instance = QueryHelper::random( 5 );
 		}
 		self::$usedInstanceIds[] = $instance;
 
@@ -276,11 +276,7 @@ class QueryStructure
 
 	public function prepare( $fieldName = '' )
 	{
-		$fieldName = trim( $fieldName );
-		if ( in_array( $fieldName, $this->reserved ) )
-			$fieldName = '`' . $fieldName . '`';
-
-		return $fieldName;
+		return QueryHelper::addBacktick( $fieldName );
 	}
 
 	/**
@@ -289,7 +285,9 @@ class QueryStructure
 	 */
 	public function index( $fieldName = '' )
 	{
-		return QueryHelper::alphaNum( $fieldName ) . '_' . $this->syntaxEL[ self::INSTANCE ] . '_' . ++$this->counter . 'i';
+		$alphaNumericFieldName = preg_replace( "/[^a-zA-Z0-9_]+/", "", $fieldName );
+
+		return $alphaNumericFieldName . '_' . $this->syntaxEL[ self::INSTANCE ] . '_' . ++$this->counter . 'i';
 	}
 
 }

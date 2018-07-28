@@ -10,6 +10,7 @@ namespace Qpdb\QueryBuilder\Traits;
 
 
 use Qpdb\QueryBuilder\Dependencies\QueryException;
+use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
 trait SelectFields
@@ -56,6 +57,16 @@ trait SelectFields
 		return $this;
 	}
 
+	public function fieldsByExpression( $expression )
+	{
+		$expression = trim( $expression );
+		$this->queryStructure->setElement( QueryStructure::FIELDS, $expression );
+
+		return $this;
+	}
+
+
+
 	/**
 	 * @param array $fieldsArray
 	 * @return array
@@ -66,14 +77,42 @@ trait SelectFields
 		$prepareArray = [];
 
 		foreach ( $fieldsArray as $field ) {
-			if ( gettype( $field ) !== QueryStructure::ELEMENT_TYPE_STRING )
-				throw new QueryException( 'Invalid select field type!', QueryException::QUERY_ERROR_SELECT_INVALID_FIELD );
 
-			if ( '' !== trim( $field ) )
-				$prepareArray[] = $this->queryStructure->prepare( $field );
+			switch ( gettype( $field ) ) {
+				case QueryStructure::ELEMENT_TYPE_STRING:
+					$prepareArray[] = $this->queryStructure->prepare( $field );
+					break;
+				case QueryStructure::ELEMENT_TYPE_ARRAY:
+					$prepareArray[] = $this->getFieldByArray( $field );
+					break;
+				default:
+					throw new QueryException('Invalid field description');
+			}
 		}
 
 		return $prepareArray;
+	}
+
+
+	/**
+	 * @param array $fieldArray
+	 * @return string
+	 * @throws QueryException
+	 */
+	private function getFieldByArray( array $fieldArray )
+	{
+
+		if ( !in_array( count( $fieldArray ), [ 1, 2 ] ) ) {
+			throw new QueryException( 'Invalid descriptive array from field.' );
+		}
+
+		if ( count( $fieldArray ) === 1 ) {
+			return $this->queryStructure->prepare( trim( $fieldArray[ 0 ] ) );
+		}
+		else {
+			return $this->queryStructure->prepare( trim( $fieldArray[ 0 ] ) ) . ' ' . $this->queryStructure->prepare( trim( $fieldArray[ 1 ] ) );
+		}
+
 	}
 
 }

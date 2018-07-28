@@ -340,6 +340,14 @@ class DbService
 		return new self();
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getLastInsertId()
+	{
+		return DbConnect::getInstance()->lastInsertId();
+	}
+
 
 	/**
 	 * @return DbService

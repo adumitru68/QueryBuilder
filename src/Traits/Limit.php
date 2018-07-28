@@ -24,15 +24,14 @@ trait Limit
 	 * @return $this
 	 * @throws QueryException
 	 */
-	public function limit( $limit = 0, $offset = null )
+	public function limit( $limit, $offset = null )
 	{
 		$limit = trim( $limit );
 
 		if ( !QueryHelper::isInteger( $limit ) )
 			throw new QueryException( 'Invalid Limit value', QueryException::QUERY_ERROR_INVALID_LIMIT );
 
-		if ( $limit == 0 )
-			throw new QueryException( 'Invalid Limit zero', QueryException::QUERY_ERROR_INVALID_LIMIT_ZERO );
+		$limit = $this->queryStructure->bindParam('lim', (int)$limit);
 
 		if ( is_null( $offset ) ) {
 			$this->queryStructure->setElement( QueryStructure::LIMIT, $limit );
@@ -45,7 +44,9 @@ trait Limit
 		if ( !QueryHelper::isInteger( $offset ) )
 			throw new QueryException( 'Invalid Limit offset', QueryException::QUERY_ERROR_INVALID_LIMIT_OFFSET );
 
-		$this->queryStructure->setElement( QueryStructure::LIMIT, $offset . ',' . $limit );
+		$offset = $this->queryStructure->bindParam('ofs', (int)$offset);
+
+		$this->queryStructure->setElement( QueryStructure::LIMIT, $offset . ', ' . $limit );
 
 		return $this;
 	}

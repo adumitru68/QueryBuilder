@@ -68,6 +68,8 @@ class QueryHelper
 	{
 		$string = preg_replace( "/[^a-zA-Z0-9 _,]+/", "", $string );
 
+		//$string = preg_replace( "/[^a-zA-Z0-9_]+/", "", $string );
+
 		return self::clearMultipleSpaces( $string );
 	}
 
@@ -114,14 +116,21 @@ class QueryHelper
 		return str_shuffle( $randomString );
 	}
 
-	public static function limitString( $rowCount, $offset = null )
-	{
-		$rowCount = intval( $rowCount );
-		if ( is_null( $offset ) )
-			return $rowCount;
-		$offset = intval( $offset );
 
-		return "$offset, $rowCount";
+	public static function addBacktick( $string )
+	{
+		$string = str_replace( '`', '', $string );
+		$stringArrayBacktick = [];
+		$string = self::clearMultipleSpaces( $string );
+		$stringArray = explode( '.', $string );
+		foreach ( $stringArray as $part ) {
+			$part = self::clearMultipleSpaces( $part );
+			if ( empty( $part ) )
+				continue;
+			$stringArrayBacktick[] = '`' . $part . '`';
+		}
+
+		return implode( '.', $stringArrayBacktick );
 	}
 
 }

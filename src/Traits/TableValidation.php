@@ -11,6 +11,7 @@ namespace Qpdb\QueryBuilder\Traits;
 
 use Qpdb\QueryBuilder\DB\DbConfig;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
+use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\Statements\QuerySelect;
 use Qpdb\QueryBuilder\Statements\QueryStatement;
@@ -51,7 +52,7 @@ trait TableValidation
 		if ( DbConfig::getInstance()->useTablePrefix() )
 			$table = str_ireplace( '::', DbConfig::getInstance()->getTablePrefix(), $table );
 
-		return $table;
+		return QueryHelper::addBacktick($table);
 	}
 
 	private function validateTableSubQuery( $table )
