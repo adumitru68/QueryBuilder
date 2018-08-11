@@ -11,10 +11,13 @@ namespace Qpdb\QueryBuilder\Traits;
 
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait LowPriority
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait LowPriority
 {
-
-	use Objects;
 
 	/**
 	 * @return $this

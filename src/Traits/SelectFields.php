@@ -13,10 +13,13 @@ use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait SelectFields
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait SelectFields
 {
-	use Objects;
-
 
 	/**
 	 * @param string|array $fields

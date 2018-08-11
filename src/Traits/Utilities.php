@@ -10,11 +10,13 @@ namespace Qpdb\QueryBuilder\Traits;
 
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait Utilities
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait Utilities
 {
-
-	use Objects;
-
 
 	/**
 	 * @return $this

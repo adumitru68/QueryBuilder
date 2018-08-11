@@ -11,11 +11,14 @@ namespace Qpdb\QueryBuilder\Traits;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+
+/**
+ * Trait Join
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait Join
 {
-
-	use Objects;
-
 
 	/**
 	 * @param string $tableJoin

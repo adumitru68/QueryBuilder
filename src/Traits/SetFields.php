@@ -10,10 +10,13 @@ namespace Qpdb\QueryBuilder\Traits;
 
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait SetFields
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait SetFields
 {
-
-	use Objects;
 
 	private $setValues;
 

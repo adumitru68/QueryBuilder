@@ -13,10 +13,13 @@ use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\Statements\QueryStatementInterface;
 
+/**
+ * Trait Replacement
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait Replacement
 {
-
-	use Objects;
 
 	/**
 	 * @param $syntax

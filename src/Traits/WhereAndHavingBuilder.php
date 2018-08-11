@@ -14,10 +14,13 @@ use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\Statements\QuerySelect;
 
+/**
+ * Trait WhereAndHavingBuilder
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait WhereAndHavingBuilder
 {
-
-	use Objects;
 
 	/**
 	 * @var string|array

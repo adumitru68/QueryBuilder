@@ -17,8 +17,8 @@ return [
 	'master_data_connect' => [
 		[
 			'host' => 'localhost',
-			'user' => 'guser',
-			'password' => '1234',
+			'user' => 'root',
+			'password' => '',
 			'dbname' => 'vertex_physio_app'
 		]
 	],

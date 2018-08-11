@@ -10,11 +10,13 @@ namespace Qpdb\QueryBuilder\Traits;
 
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait Having
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait Having
 {
-
-	use Objects;
-
 
 	/**
 	 * @param $field

@@ -14,11 +14,13 @@ use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\Statements\QuerySelect;
 
+/**
+ * Trait InsertMultiple
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait InsertMultiple
 {
-
-	use Objects;
-
 
 	/**
 	 * @param $fieldsList

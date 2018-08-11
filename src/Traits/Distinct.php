@@ -12,11 +12,13 @@ namespace Qpdb\QueryBuilder\Traits;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait Distinct
+ * @package Qpdb\QueryBuilder\Traits
+ * @property  QueryStructure $queryStructure
+ */
 trait Distinct
 {
-
-	use Objects;
-
 
 	/**
 	 * @return $this

@@ -12,11 +12,13 @@ use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait Limit
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait Limit
 {
-
-	use Objects;
-
 
 	/**
 	 * @param int $limit

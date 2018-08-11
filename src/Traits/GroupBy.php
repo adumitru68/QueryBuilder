@@ -15,9 +15,6 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait GroupBy
 {
 
-	use Objects;
-
-
 	/**
 	 * @param $column
 	 * @param array $allowedColumns
