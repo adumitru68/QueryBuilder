@@ -12,6 +12,11 @@ use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
+/**
+ * Trait GroupBy
+ * @package Qpdb\QueryBuilder\Traits
+ * @property QueryStructure $queryStructure
+ */
 trait GroupBy
 {
 
@@ -23,10 +28,11 @@ trait GroupBy
 	 */
 	public function groupBy( $column, array $allowedColumns = [] )
 	{
-		$column = $this->queryStructure->prepare($column);
-
 		if ( !$this->validateColumn( $column, $allowedColumns ) )
 			throw new QueryException( 'Invalid column name in GROUP BY clause', QueryException::QUERY_ERROR_INVALID_COLUMN_NAME );
+
+		$column = $this->queryStructure->prepare($column);
+		$this->queryStructure->setElement( QueryStructure::ORDER_BY, $column );
 
 		$this->queryStructure->setElement( QueryStructure::GROUP_BY, $column );
 
@@ -42,10 +48,11 @@ trait GroupBy
 	 */
 	public function groupByDesc( $column, array $allowedColumns = [] )
 	{
-		$column = $this->queryStructure->prepare($column);
-
 		if ( !$this->validateColumn( $column, $allowedColumns ) )
 			throw new QueryException( 'Invalid column name in GROUP BY clause', QueryException::QUERY_ERROR_INVALID_COLUMN_NAME );
+
+		$column = $this->queryStructure->prepare($column);
+		$this->queryStructure->setElement( QueryStructure::ORDER_BY, $column );
 
 		$this->queryStructure->setElement( QueryStructure::GROUP_BY, $column . ' DESC' );
 
@@ -56,6 +63,7 @@ trait GroupBy
 	/**
 	 * @param $expression
 	 * @return $this
+	 * @throws QueryException
 	 */
 	public function groupByExpression( $expression )
 	{

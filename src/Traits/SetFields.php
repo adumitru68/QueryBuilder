@@ -24,6 +24,7 @@ trait SetFields
 	 * @param $fieldName
 	 * @param $fieldValue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function setField( $fieldName, $fieldValue )
 	{
@@ -37,6 +38,7 @@ trait SetFields
 	/**
 	 * @param string $expression
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function setFieldByExpression( $expression )
 	{
@@ -49,6 +51,7 @@ trait SetFields
 	 * Set fields by associative array ( fieldName => fieldValue )
 	 * @param array $updateFieldsArray
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function setFieldsByArray( array $updateFieldsArray )
 	{

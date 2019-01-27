@@ -25,6 +25,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function innerJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -36,6 +37,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function leftJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -47,6 +49,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function leftOuterJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -58,6 +61,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function rightJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -69,6 +73,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function rightOuterJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -80,6 +85,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function fullJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -91,6 +97,7 @@ trait Join
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function fullOuterJoin( $tableJoin, $onLeft, $onRight = null )
 	{
@@ -100,6 +107,7 @@ trait Join
 	/**
 	 * @param $stringJoin
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function join( $stringJoin )
 	{
@@ -109,10 +117,12 @@ trait Join
 	}
 
 	/**
+	 * @param string $typeJoin
 	 * @param string $tableJoin
 	 * @param string $onLeft
 	 * @param string $onRight
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	private function makeJoin( $typeJoin, $tableJoin, $onLeft, $onRight = null )
 	{

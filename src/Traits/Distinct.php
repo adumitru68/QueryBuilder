@@ -22,6 +22,7 @@ trait Distinct
 
 	/**
 	 * @return $this
+	 * @throws QueryException
 	 */
 	public function all()
 	{

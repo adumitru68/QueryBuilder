@@ -13,6 +13,7 @@ use Qpdb\QueryBuilder\Statements\QueryDelete;
 use Qpdb\QueryBuilder\Statements\QueryInsert;
 use Qpdb\QueryBuilder\Statements\QuerySelect;
 use Qpdb\QueryBuilder\Statements\QueryUpdate;
+use Qpdb\QueryBuilder\Statements\Transaction;
 
 class QueryBuild
 {
@@ -34,6 +35,7 @@ class QueryBuild
 	/**
 	 * @param $table
 	 * @return QuerySelect
+	 * @throws Dependencies\QueryException
 	 */
 	public static function select( $table )
 	{
@@ -43,6 +45,7 @@ class QueryBuild
 	/**
 	 * @param $table
 	 * @return QueryUpdate
+	 * @throws Dependencies\QueryException
 	 */
 	public static function update( $table )
 	{
@@ -52,6 +55,7 @@ class QueryBuild
 	/**
 	 * @param $table
 	 * @return QueryInsert
+	 * @throws Dependencies\QueryException
 	 */
 	public static function insert( $table )
 	{
@@ -61,6 +65,7 @@ class QueryBuild
 	/**
 	 * @param $table
 	 * @return QueryDelete
+	 * @throws Dependencies\QueryException
 	 */
 	public static function delete( $table )
 	{
@@ -70,10 +75,19 @@ class QueryBuild
 	/**
 	 * @param $query
 	 * @return QueryCustom
+	 * @throws Dependencies\QueryException
 	 */
 	public static function query( $query )
 	{
 		return new QueryCustom( new QueryBuild( 1 ), $query );
+	}
+
+	/**
+	 * @return Transaction
+	 */
+	public static function transaction()
+	{
+		return new Transaction();
 	}
 
 	/**

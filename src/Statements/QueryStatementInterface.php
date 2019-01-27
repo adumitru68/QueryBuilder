@@ -16,12 +16,18 @@ interface QueryStatementInterface
 
 	/**
 	 * @param int $replacement
-	 * @return string
+	 * @return string|array
 	 */
 	public function getSyntax( $replacement = self::REPLACEMENT_NONE );
 
+	/**
+	 * @return mixed
+	 */
 	public function execute();
 
+	/**
+	 * @return array
+	 */
 	public function getBindParams();
 
 }

@@ -28,11 +28,10 @@ trait OrderBy
 	 */
 	public function orderBy( $column, array $allowedColumns = [] )
 	{
-		$column = $this->queryStructure->prepare($column);
-
 		if ( !$this->validateColumn( $column, $allowedColumns ) )
 			throw new QueryException( 'Invalid column name in ORDER BY clause', QueryException::QUERY_ERROR_INVALID_COLUMN_NAME );
 
+		$column = $this->queryStructure->prepare($column);
 		$this->queryStructure->setElement( QueryStructure::ORDER_BY, $column );
 
 		return $this;
@@ -47,11 +46,10 @@ trait OrderBy
 	 */
 	public function orderByDesc( $column, array $allowedColumns = [] )
 	{
-		$column = $this->queryStructure->prepare($column);
-
 		if ( !$this->validateColumn( $column, $allowedColumns ) )
 			throw new QueryException( 'Invalid column name in ORDER BY clause', QueryException::QUERY_ERROR_INVALID_COLUMN_NAME );
 
+		$column = $this->queryStructure->prepare($column);
 		$this->queryStructure->setElement( QueryStructure::ORDER_BY, $column . ' DESC' );
 
 		return $this;
@@ -61,6 +59,7 @@ trait OrderBy
 	/**
 	 * @param $expression
 	 * @return $this
+	 * @throws QueryException
 	 */
 	public function orderByExpression( $expression )
 	{

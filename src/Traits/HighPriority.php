@@ -21,6 +21,7 @@ trait HighPriority
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function highPriority()
 	{

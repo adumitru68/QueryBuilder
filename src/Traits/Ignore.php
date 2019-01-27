@@ -21,6 +21,7 @@ trait Ignore
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function ignore()
 	{

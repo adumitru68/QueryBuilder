@@ -23,6 +23,7 @@ trait Having
 	 * @param $value
 	 * @param $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingEqual( $field, $value, $glue = 'AND' )
 	{
@@ -33,6 +34,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingEqual( $field, $value )
 	{
@@ -44,6 +46,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingNotEqual( $field, $value, $glue = 'AND' )
 	{
@@ -54,6 +57,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingNotEqual( $field, $value )
 	{
@@ -65,6 +69,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingLessThan( $field, $value, $glue = 'AND' )
 	{
@@ -75,6 +80,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingLessThan( $field, $value )
 	{
@@ -86,6 +92,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingLessThanOrEqual( $field, $value, $glue = 'AND' )
 	{
@@ -96,6 +103,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingLessThanOrEqual( $field, $value )
 	{
@@ -107,6 +115,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingGreaterThan( $field, $value, $glue = 'AND' )
 	{
@@ -117,6 +126,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingGreaterThan( $field, $value )
 	{
@@ -128,6 +138,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingGreaterThanOrEqual( $field, $value, $glue = 'AND' )
 	{
@@ -138,6 +149,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingGreaterThanOrEqual( $field, $value )
 	{
@@ -149,6 +161,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingLike( $field, $value, $glue = 'AND' )
 	{
@@ -159,6 +172,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingLike( $field, $value )
 	{
@@ -170,6 +184,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingNotLike( $field, $value, $glue = 'AND' )
 	{
@@ -180,6 +195,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingNotLike( $field, $value )
 	{
@@ -192,6 +208,7 @@ trait Having
 	 * @param $max
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingBetween( $field, $min, $max, $glue = 'AND' )
 	{
@@ -203,6 +220,7 @@ trait Having
 	 * @param $min
 	 * @param $max
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingBetween( $field, $min, $max )
 	{
@@ -215,6 +233,7 @@ trait Having
 	 * @param $max
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingNotBetween( $field, $min, $max, $glue = 'AND' )
 	{
@@ -226,6 +245,7 @@ trait Having
 	 * @param $min
 	 * @param $max
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingNotBetween( $field, $min, $max )
 	{
@@ -237,6 +257,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingIn( $field, $value, $glue = 'AND' )
 	{
@@ -247,6 +268,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingIn( $field, $value )
 	{
@@ -258,6 +280,7 @@ trait Having
 	 * @param $value
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingNotIn( $field, $value, $glue = 'AND' )
 	{
@@ -268,6 +291,7 @@ trait Having
 	 * @param $field
 	 * @param $value
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingNotIn( $field, $value )
 	{
@@ -279,6 +303,7 @@ trait Having
 	 * @param array $bindParams
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingExpression( $whereString, array $bindParams = [], $glue = 'AND' )
 	{
@@ -291,6 +316,7 @@ trait Having
 	 * @param $whereString
 	 * @param array $bindParams
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingExpression( $whereString, array $bindParams = [] )
 	{
@@ -301,6 +327,7 @@ trait Having
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingInvertResult()
 	{
@@ -312,6 +339,7 @@ trait Having
 	/**
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingGroup( $glue = 'AND' )
 	{
@@ -322,6 +350,7 @@ trait Having
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orHavingGroup()
 	{
@@ -330,6 +359,7 @@ trait Having
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function havingGroupEnd()
 	{
@@ -342,6 +372,7 @@ trait Having
 	 * @param $param
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	private function having( $param, $glue = 'AND' )
 	{

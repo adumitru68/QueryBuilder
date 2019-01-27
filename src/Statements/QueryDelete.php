@@ -9,6 +9,7 @@
 namespace Qpdb\QueryBuilder\Statements;
 
 
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\DB\DbService;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
@@ -39,6 +40,7 @@ class QueryDelete extends QueryStatement implements QueryStatementInterface
 	 * QueryDelete constructor.
 	 * @param QueryBuild $queryBuild
 	 * @param string $table
+	 * @throws QueryException
 	 */
 	public function __construct( QueryBuild $queryBuild, $table = null )
 	{
@@ -93,7 +95,7 @@ class QueryDelete extends QueryStatement implements QueryStatementInterface
 	 * @return array|int|null
 	 * @throws QueryException
 	 */
-	public function execute()
+	public function execute_old()
 	{
 
 		if ( $this->queryStructure->getElement( ( QueryStructure::WHERE_TRIGGER ) ) && !count( $this->queryStructure->getElement( QueryStructure::WHERE ) ) )
@@ -101,6 +103,19 @@ class QueryDelete extends QueryStatement implements QueryStatementInterface
 
 		return DbService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
 
+	}
+
+
+	/**
+	 * @return array|int|null
+	 * @throws QueryException
+	 */
+	public function execute()
+	{
+		if ( $this->queryStructure->getElement( ( QueryStructure::WHERE_TRIGGER ) ) && !count( $this->queryStructure->getElement( QueryStructure::WHERE ) ) )
+			throw new QueryException( 'Where clause is required for this statement!', QueryException::QUERY_ERROR_DELETE_NOT_FILTER );
+
+		return PdoWrapperService::getInstance()->query($this->getSyntax(), $this->queryStructure->getElement(QueryStructure::BIND_PARAMS))->rowCount();
 	}
 
 

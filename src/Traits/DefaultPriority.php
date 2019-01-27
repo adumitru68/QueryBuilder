@@ -21,6 +21,7 @@ trait DefaultPriority
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function defaultPriority()
 	{

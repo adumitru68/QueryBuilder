@@ -8,6 +8,7 @@
 namespace Qpdb\QueryBuilder\Statements;
 
 
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\DB\DbService;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
@@ -41,6 +42,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 	 * QuerySelect constructor.
 	 * @param QueryBuild $queryBuild
 	 * @param string|QueryStatement $table
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function __construct( QueryBuild $queryBuild, $table )
 	{
@@ -63,6 +65,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function first()
 	{
@@ -73,6 +76,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function count()
 	{
@@ -84,6 +88,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 	/**
 	 * @param $column
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function column( $column )
 	{
@@ -97,6 +102,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 	/**
 	 * @param bool|int $replacement
 	 * @return mixed|string
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function getSyntax( $replacement = self::REPLACEMENT_NONE )
 	{
@@ -181,8 +187,9 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 
 	/**
 	 * @return array|int|mixed|null|string
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
-	public function execute()
+	public function execute_old()
 	{
 
 		switch ( true ) {
@@ -201,6 +208,27 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 			default:
 				return DbService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
 				break;
+		}
+	}
+
+	/**
+	 * @return array
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
+	 */
+	public function execute()
+	{
+		switch ( true ) {
+			case $this->queryStructure->getElement( QueryStructure::COUNT ):
+				return PdoWrapperService::getInstance()->queryFetch( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ), \PDO::FETCH_COLUMN );
+			case $this->queryStructure->getElement( QueryStructure::FIRST ):
+				if ( $this->queryStructure->getElement( QueryStructure::COLUMN ) ) {
+					return PdoWrapperService::getInstance()->queryFetch( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ), \PDO::FETCH_COLUMN );
+				}
+				return PdoWrapperService::getInstance()->queryFetch( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ), \PDO::FETCH_ASSOC );
+			case $this->queryStructure->getElement( QueryStructure::COLUMN ):
+				return PdoWrapperService::getInstance()->queryFetchAll( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ), \PDO::FETCH_COLUMN );
+			default:
+				return PdoWrapperService::getInstance()->queryFetchAll($this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ), \PDO::FETCH_ASSOC);
 		}
 	}
 

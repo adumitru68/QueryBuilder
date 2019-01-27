@@ -301,6 +301,7 @@ trait Where
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function whereInvertResult()
 	{
@@ -312,6 +313,7 @@ trait Where
 	/**
 	 * @param string $glue
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function whereGroup( $glue = 'AND' )
 	{
@@ -322,6 +324,7 @@ trait Where
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function orWhereGroup()
 	{
@@ -330,6 +333,7 @@ trait Where
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function whereGroupEnd()
 	{
@@ -340,6 +344,7 @@ trait Where
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function ignoreWhereTrigger()
 	{

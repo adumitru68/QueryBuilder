@@ -49,9 +49,7 @@ abstract class AbstractTableCrud
 		$this->setTable();
 		$this->setPrimaryKey();
 		$this->setOrderField();
-
-		if ( !is_array( $this->primary ) )
-			$this->primary = [ $this->primary ];
+		$this->primary = (array)$this->primary;
 	}
 
 	/**

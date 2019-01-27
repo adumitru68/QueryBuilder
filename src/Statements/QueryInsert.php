@@ -35,6 +35,7 @@ class QueryInsert extends QueryStatement implements QueryStatementInterface
 	 * QueryInsert constructor.
 	 * @param QueryBuild $queryBuild
 	 * @param string $table
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function __construct( QueryBuild $queryBuild, $table = null )
 	{
@@ -43,6 +44,7 @@ class QueryInsert extends QueryStatement implements QueryStatementInterface
 
 	/**
 	 * @return QueryInsertMultiple
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function multiple()
 	{

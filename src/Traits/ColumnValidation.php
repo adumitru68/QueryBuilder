@@ -19,6 +19,11 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait ColumnValidation
 {
 
+	/**
+	 * @param $columnName
+	 * @param array $allowed
+	 * @return bool
+	 */
 	protected function validateColumn( $columnName, array $allowed )
 	{
 		if ( is_integer( $columnName ) )

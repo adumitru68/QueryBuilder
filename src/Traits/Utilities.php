@@ -20,6 +20,7 @@ trait Utilities
 
 	/**
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function explain()
 	{
@@ -28,6 +29,9 @@ trait Utilities
 		return $this;
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function getExplainSyntax()
 	{
 		if ( $this->queryStructure->getElement( QueryStructure::EXPLAIN ) )
@@ -36,10 +40,10 @@ trait Utilities
 		return '';
 	}
 
-
 	/**
 	 * @param string $comment
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function withComment( $comment = '' )
 	{
@@ -51,6 +55,7 @@ trait Utilities
 	/**
 	 * @param string $identifier
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function withLogIdentifier( $identifier = null )
 	{

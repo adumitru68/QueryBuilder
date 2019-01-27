@@ -43,6 +43,7 @@ trait WhereAndHavingBuilder
 	 * @param string $glue
 	 * @param $clauseType
 	 * @return $this
+	 * @throws QueryException
 	 */
 	protected function createCondition( $param, $glue = 'AND', $clauseType )
 	{
@@ -156,6 +157,7 @@ trait WhereAndHavingBuilder
 
 	/**
 	 * @param string|array $body
+	 * @throws QueryException
 	 */
 	private function registerCondition( $body )
 	{

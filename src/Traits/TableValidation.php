@@ -19,6 +19,11 @@ use Qpdb\QueryBuilder\Statements\QueryStatement;
 trait TableValidation
 {
 
+	/**
+	 * @param $table
+	 * @return mixed|string
+	 * @throws QueryException
+	 */
 	private function validateTable( $table )
 	{
 		switch ( gettype( $table ) ) {
@@ -55,6 +60,11 @@ trait TableValidation
 		return QueryHelper::addBacktick($table);
 	}
 
+	/**
+	 * @param $table
+	 * @return mixed
+	 * @throws QueryException
+	 */
 	private function validateTableSubQuery( $table )
 	{
 		if ( $this->statement !== QueryStatement::QUERY_STATEMENT_SELECT )

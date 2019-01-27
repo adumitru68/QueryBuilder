@@ -10,7 +10,6 @@ namespace Qpdb\QueryBuilder\Traits;
 
 
 use Qpdb\QueryBuilder\Dependencies\QueryException;
-use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
 /**

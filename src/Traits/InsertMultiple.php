@@ -26,6 +26,7 @@ trait InsertMultiple
 	 * @param $fieldsList
 	 * @param array $rowsForInsert
 	 * @return $this
+	 * @throws QueryException
 	 */
 	public function fromArray( $fieldsList, array $rowsForInsert )
 	{
@@ -42,6 +43,7 @@ trait InsertMultiple
 	 * @param $fieldsList
 	 * @param QuerySelect $query
 	 * @return $this
+	 * @throws QueryException
 	 */
 	public function fromQuerySelect( $fieldsList, QuerySelect $query )
 	{
@@ -58,6 +60,7 @@ trait InsertMultiple
 
 	/**
 	 * @param string|array $fieldList
+	 * @throws QueryException
 	 */
 	private function setFieldsList( $fieldList )
 	{

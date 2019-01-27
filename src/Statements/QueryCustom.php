@@ -47,6 +47,7 @@ class QueryCustom implements QueryStatementInterface
 	 * QueryCustom constructor.
 	 * @param QueryBuild $queryBuild
 	 * @param string $query
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function __construct( QueryBuild $queryBuild, $query = '' )
 	{
@@ -60,6 +61,7 @@ class QueryCustom implements QueryStatementInterface
 	/**
 	 * @param array $params
 	 * @return $this
+	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
 	public function withBindParams( array $params = [] )
 	{

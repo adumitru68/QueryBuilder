@@ -77,18 +77,6 @@ class QueryStructure
 	 */
 	private $counter = 0;
 
-	/**
-	 * @var array
-	 */
-	private $reserved = [
-		'order',
-		'select',
-		'insert',
-		'update',
-		'alter',
-		'delete'
-	];
-
 
 	/**
 	 * QueryStructure constructor.
