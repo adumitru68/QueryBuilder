@@ -9,7 +9,7 @@
 namespace Qpdb\QueryBuilder\Statements;
 
 
-use Qpdb\QueryBuilder\DB\DbService;
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\QueryBuild;
 use Qpdb\QueryBuilder\Traits\DefaultPriority;
@@ -85,6 +85,6 @@ class QueryInsertMultiple extends QueryStatement implements QueryStatementInterf
 
 	public function execute()
 	{
-		return DbService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
+		return PdoWrapperService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) )->rowCount();
 	}
 }

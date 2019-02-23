@@ -40,4 +40,11 @@ class QueryTimer
 		return $this->queryEnd - $this->queryStart;
 	}
 
+	/**
+	 * @return $this
+	 */
+	public static function instance() {
+		return new self();
+	}
+
 }

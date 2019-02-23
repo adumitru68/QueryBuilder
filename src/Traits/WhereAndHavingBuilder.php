@@ -45,7 +45,7 @@ trait WhereAndHavingBuilder
 	 * @return $this
 	 * @throws QueryException
 	 */
-	protected function createCondition( $param, $glue = 'AND', $clauseType )
+	protected function createCondition( $param, $glue, $clauseType )
 	{
 
 		if ( !is_array( $param ) ) {

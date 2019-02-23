@@ -59,6 +59,11 @@ trait SelectFields
 		return $this;
 	}
 
+	/**
+	 * @param $expression
+	 * @return $this
+	 * @throws QueryException
+	 */
 	public function fieldsByExpression( $expression )
 	{
 		$expression = trim( $expression );

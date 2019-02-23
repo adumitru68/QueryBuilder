@@ -9,7 +9,7 @@
 namespace Qpdb\QueryBuilder\AbstractCruds;
 
 
-use Qpdb\QueryBuilder\DB\DbService;
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\QueryBuild;
 
@@ -30,11 +30,6 @@ abstract class AbstractTableCrud
 	 * @var string
 	 */
 	protected $orderField;
-
-	/**
-	 * @var mixed
-	 */
-	protected $lastInsertId;
 
 
 	abstract protected function setTable();
@@ -104,23 +99,12 @@ abstract class AbstractTableCrud
 
 	/**
 	 * @param array $arrayValues
-	 * @return array|int|null
+	 * @return bool|mixed|\PDOStatement
+	 * @throws QueryException
 	 */
 	public function insertRow( array $arrayValues )
 	{
-		$result = QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues );
-		$this->lastInsertId = DbService::getInstance()->getLastInsertId();
-
-		return $result->execute();
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function lastInsertId()
-	{
-		return $this->lastInsertId;
+		return QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues )->execute();
 	}
 
 
@@ -142,7 +126,7 @@ abstract class AbstractTableCrud
 		}
 		$query .= "ELSE `{$this->orderField}` END";
 
-		return DbService::getInstance()->query( $query, [] );
+		return PdoWrapperService::getInstance()->query($query, []);
 	}
 
 

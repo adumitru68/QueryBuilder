@@ -9,7 +9,6 @@ namespace Qpdb\QueryBuilder\Statements;
 
 
 use Qpdb\PdoWrapper\PdoWrapperService;
-use Qpdb\QueryBuilder\DB\DbService;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\QueryBuild;
@@ -182,33 +181,6 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 
 		return $this->getSyntaxReplace( $syntax, $replacement );
 
-	}
-
-
-	/**
-	 * @return array|int|mixed|null|string
-	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
-	 */
-	public function execute_old()
-	{
-
-		switch ( true ) {
-			case $this->queryStructure->getElement( QueryStructure::COUNT ):
-				return DbService::getInstance()->single( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
-				break;
-			case $this->queryStructure->getElement( QueryStructure::FIRST ):
-				if ( $this->queryStructure->getElement( QueryStructure::COLUMN ) )
-					return DbService::getInstance()->single( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
-
-				return DbService::getInstance()->row( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
-				break;
-			case $this->queryStructure->getElement( QueryStructure::COLUMN ):
-				return DbService::getInstance()->column( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
-				break;
-			default:
-				return DbService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
-				break;
-		}
 	}
 
 	/**

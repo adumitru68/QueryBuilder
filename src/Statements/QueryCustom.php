@@ -9,7 +9,7 @@
 namespace Qpdb\QueryBuilder\Statements;
 
 
-use Qpdb\QueryBuilder\DB\DbService;
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\QueryBuild;
 
@@ -92,7 +92,7 @@ class QueryCustom implements QueryStatementInterface
 	 */
 	public function execute()
 	{
-		return DbService::getInstance()->query( $this->queryStructure->getElement( QueryStructure::QUERY_STRING ), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
+		return PdoWrapperService::getInstance()->query( $this->queryStructure->getElement( QueryStructure::QUERY_STRING ), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
 	}
 
 

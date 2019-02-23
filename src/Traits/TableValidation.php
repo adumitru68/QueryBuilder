@@ -8,8 +8,6 @@
 
 namespace Qpdb\QueryBuilder\Traits;
 
-
-use Qpdb\QueryBuilder\DB\DbConfig;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryHelper;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
@@ -53,9 +51,6 @@ trait TableValidation
 
 		if ( '' === $table )
 			throw new QueryException( 'Table name is empty string!', QueryException::QUERY_ERROR_INVALID_TABLE_STATEMENT );
-
-		if ( DbConfig::getInstance()->useTablePrefix() )
-			$table = str_ireplace( '::', DbConfig::getInstance()->getTablePrefix(), $table );
 
 		return QueryHelper::addBacktick($table);
 	}

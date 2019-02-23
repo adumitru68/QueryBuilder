@@ -9,7 +9,7 @@
 namespace Qpdb\QueryBuilder\Statements;
 
 
-use Qpdb\QueryBuilder\DB\DbService;
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\QueryBuild;
 use Qpdb\QueryBuilder\Traits\DefaultPriority;
@@ -95,10 +95,11 @@ class QueryInsert extends QueryStatement implements QueryStatementInterface
 
 	}
 
-
-	public function execute()
-	{
-		return DbService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
+	/**
+	 * @return bool|mixed|\PDOStatement
+	 */
+	public function execute() {
+		return PdoWrapperService::getInstance()->query($this->getSyntax(), $this->queryStructure->getElement(QueryStructure::BIND_PARAMS))->rowCount();
 	}
 
 

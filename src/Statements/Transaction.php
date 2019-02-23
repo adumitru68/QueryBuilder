@@ -9,6 +9,7 @@
 namespace Qpdb\QueryBuilder\Statements;
 
 
+use Qpdb\Common\Helpers\Arrays;
 use Qpdb\PdoWrapper\PdoWrapperService;
 
 class Transaction implements QueryStatementInterface
@@ -19,11 +20,11 @@ class Transaction implements QueryStatementInterface
 	private $transaction;
 
 	/**
-	 * @param QueryStatementInterface[] ...$queries
+	 * @param QueryStatementInterface ...$queries
 	 * @return $this
 	 */
-	public function withQuery( QueryStatementInterface ...$queries )
-	{
+	public function withQuery( QueryStatementInterface ...$queries ) {
+		$queries = Arrays::flatValues( $queries );
 		foreach ( $queries as $query ) {
 			$this->transaction = $query;
 		}
@@ -35,8 +36,7 @@ class Transaction implements QueryStatementInterface
 	 * @param int $replacement
 	 * @return array
 	 */
-	public function getSyntax( $replacement = self::REPLACEMENT_NONE )
-	{
+	public function getSyntax( $replacement = self::REPLACEMENT_NONE ) {
 		$queries = [];
 		foreach ( $this->transaction as $queryStatement ) {
 			$queries[] = $queryStatement->getSyntax( $replacement );
@@ -47,19 +47,17 @@ class Transaction implements QueryStatementInterface
 
 	/**
 	 * @param \Closure $function
-	 * @param array $params
+	 * @param array    $params
 	 * @return mixed|null
 	 */
-	public function executeFunction( \Closure $function, array $params = [] )
-	{
+	public function executeFunction( \Closure $function, array $params = [] ) {
 		return PdoWrapperService::getInstance()->transaction( $function, $params );
 	}
 
 	/**
 	 * @return mixed|null
 	 */
-	public function execute()
-	{
+	public function execute() {
 		$transaction = (array)$this->transaction;
 
 		return PdoWrapperService::getInstance()->transaction(
@@ -78,8 +76,7 @@ class Transaction implements QueryStatementInterface
 	/**
 	 * @return array
 	 */
-	public function getBindParams()
-	{
+	public function getBindParams() {
 		$queries = [];
 		foreach ( $this->transaction as $queryStatement ) {
 			$queries[] = $queryStatement->getBindParams();

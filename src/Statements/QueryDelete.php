@@ -10,7 +10,6 @@ namespace Qpdb\QueryBuilder\Statements;
 
 
 use Qpdb\PdoWrapper\PdoWrapperService;
-use Qpdb\QueryBuilder\DB\DbService;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 use Qpdb\QueryBuilder\QueryBuild;
@@ -90,21 +89,6 @@ class QueryDelete extends QueryStatement implements QueryStatementInterface
 
 		return $this->getSyntaxReplace( $syntax, $replacement );
 	}
-
-	/**
-	 * @return array|int|null
-	 * @throws QueryException
-	 */
-	public function execute_old()
-	{
-
-		if ( $this->queryStructure->getElement( ( QueryStructure::WHERE_TRIGGER ) ) && !count( $this->queryStructure->getElement( QueryStructure::WHERE ) ) )
-			throw new QueryException( 'Where or Having clause is required for this statement!', QueryException::QUERY_ERROR_DELETE_NOT_FILTER );
-
-		return DbService::getInstance()->query( $this->getSyntax(), $this->queryStructure->getElement( QueryStructure::BIND_PARAMS ) );
-
-	}
-
 
 	/**
 	 * @return array|int|null

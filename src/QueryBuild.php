@@ -8,6 +8,7 @@
 namespace Qpdb\QueryBuilder;
 
 
+use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\Statements\QueryCustom;
 use Qpdb\QueryBuilder\Statements\QueryDelete;
 use Qpdb\QueryBuilder\Statements\QueryInsert;
@@ -70,6 +71,13 @@ class QueryBuild
 	public static function delete( $table )
 	{
 		return new QueryDelete( new QueryBuild( 0 ), $table );
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function lastId() {
+		return PdoWrapperService::getInstance()->lastInsertId();
 	}
 
 	/**
