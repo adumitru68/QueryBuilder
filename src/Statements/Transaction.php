@@ -24,7 +24,7 @@ class Transaction implements QueryStatementInterface
 	 * @return $this
 	 */
 	public function withQuery( QueryStatementInterface ...$queries ) {
-		$queries = Arrays::flatValues( $queries );
+		$queries = Arrays::flattenValues( $queries );
 		foreach ( $queries as $query ) {
 			$this->transaction = $query;
 		}
