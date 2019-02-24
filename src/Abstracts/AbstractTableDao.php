@@ -22,7 +22,7 @@ abstract class AbstractTableDao
 	protected $table;
 
 	/**
-	 * @var string|array
+	 * @var array
 	 */
 	protected $primary;
 
@@ -148,8 +148,8 @@ abstract class AbstractTableDao
 	 */
 	protected function getPrimaryKeyConditions( $id )
 	{
-		if ( !is_array( $id ) )
-			$id = [ $id ];
+
+		$id = (array)$id;
 
 		if ( count( $this->primary ) !== count( $id ) )
 			throw new QueryException( 'Invalid primary key', QueryException::QUERY_CRUD_INVALID_PRIMARY );
