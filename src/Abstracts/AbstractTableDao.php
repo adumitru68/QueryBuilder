@@ -2,18 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: Adi
- * Date: 7/29/2018
- * Time: 12:58 AM
+ * Date: 2/24/2019
+ * Time: 6:54 PM
  */
 
-namespace Qpdb\QueryBuilder\AbstractCruds;
+namespace Qpdb\QueryBuilder\Abstracts;
 
 
 use Qpdb\PdoWrapper\PdoWrapperService;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\QueryBuild;
 
-abstract class AbstractTableCrud
+abstract class AbstractTableDao
 {
 
 	/**
@@ -32,20 +32,32 @@ abstract class AbstractTableCrud
 	protected $orderField;
 
 
-	abstract protected function setTable();
-
-	abstract protected function setPrimaryKey();
-
-	abstract protected function setOrderField();
-
-
+	/**
+	 * AbstractTableCrud constructor.
+	 */
 	public function __construct()
 	{
-		$this->setTable();
-		$this->setPrimaryKey();
-		$this->setOrderField();
-		$this->primary = (array)$this->primary;
+		$this->table = $this->getTableName();
+		$this->primary = (array)$this->getPrimaryKey();
+		$this->orderField = $this->getOrderField();
 	}
+
+
+	/**
+	 * @return string
+	 */
+	abstract protected function getTableName();
+
+	/**
+	 * @return string|array
+	 */
+	abstract protected function getPrimaryKey();
+
+	/**
+	 * @return string
+	 */
+	abstract protected function getOrderField();
+
 
 	/**
 	 * @param $id
@@ -107,10 +119,9 @@ abstract class AbstractTableCrud
 		return QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues )->execute();
 	}
 
-
 	/**
 	 * @param array $updates_ord
-	 * @return int
+	 * @return bool|\PDOStatement
 	 * @throws QueryException
 	 */
 	public function saveOrder( $updates_ord = array() )

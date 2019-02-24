@@ -88,7 +88,7 @@ class QueryCustom implements QueryStatementInterface
 	}
 
 	/**
-	 * @return array|int|null
+	 * @return bool|mixed|\PDOStatement
 	 */
 	public function execute()
 	{
