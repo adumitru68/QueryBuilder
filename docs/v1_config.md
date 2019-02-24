@@ -1,27 +1,31 @@
-# QueryBuilder v2
+# QueryBuilder v1
 
 **QueryBuilder** is a user friendly php class for build MySql queries that prevents mysql injections and it takes care of table prefixing. This same can also replication support for use master and slave.
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adumitru68/QueryBuilder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adumitru68/QueryBuilder/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/adumitru68/QueryBuilder/badges/build.png?b=master)](https://scrutinizer-ci.com/g/adumitru68/QueryBuilder/build-status/master)
-
-[Old versions documentation](docs/v1_config.md)
-
 ### Requirements
-* Php 5.6+
+* Php 5.4+
 * Enable PDO (php.ini)
 * MySql 5.5 / 5.6 / 5.7 / MariaDB
-* Partial tested for MySql 8
 
 ### Installation
 
 ```
 composer require qpdb/query-builder
 ```
+If you do not use composer, you can [manually install](installation/manual.md) this library.
 
 ### Configuration
 
-It is enough to configure the [pdoWrapper](https://github.com/adumitru68/PdoWrapper/blob/master/README.md) dependence.
+By default MysqlBuilder searches for configuration data (credentials, paths, etc) in the file 
+```vendor/qpdb/query_builder/sample-config/qpdb_db_config.php```. 
+But it's not recommended to edit this file because it's overwritten by composer.
+The simplest way to set up an efficient Query Builder is to walk through three easy steps:
+- Create a ```vendor-cfg``` folder on the same level as the ```vendor``` folder.
+- Copy file ```qpdb_db_config.php``` into ```vendor-cfg```.
+- Edit file ```vendor-cfg/qpdb_db_config.php```.
+
+Of course there are other configuration options (With Composer, or using custom autoload file), based on the DbConfig class. 
+These are listed in the [Configuration](installation/config2.md) section.
 
 ### How do we use?
 ```php
