@@ -97,7 +97,7 @@ class QueryStructure
 			self::EXPLAIN => 0,
 			self::STATEMENT => '',
 			self::PRIORITY => '',
-			self::FIELDS => '*',
+			self::FIELDS => [],
 			self::SET_FIELDS => array(),
 			self::WHERE => array(),
 			self::HAVING => array(),
@@ -262,6 +262,10 @@ class QueryStructure
 		return ':' . $pdoName;
 	}
 
+	/**
+	 * @param string $fieldName
+	 * @return string
+	 */
 	public function prepare( $fieldName = '' )
 	{
 		return QueryHelper::addBacktick( $fieldName );

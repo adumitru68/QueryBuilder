@@ -30,7 +30,7 @@ trait SetFields
 	{
 		$fieldName = $this->queryStructure->prepare($fieldName);
 		$valuePdoString = $this->queryStructure->bindParam( $fieldName, $fieldValue );
-		$this->queryStructure->setElement( QueryStructure::SET_FIELDS, "$fieldName = $valuePdoString" );
+		$this->queryStructure->setElement( QueryStructure::SET_FIELDS, $this->queryStructure->prepare($fieldName) . " = $valuePdoString" );
 
 		return $this;
 	}

@@ -107,7 +107,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 	{
 
 		if ( $this->queryStructure->getElement( QueryStructure::COUNT ) ) {
-			$this->queryStructure->setElement( QueryStructure::FIELDS, 'COUNT(*)' );
+			$this->queryStructure->replaceElement( QueryStructure::FIELDS, 'COUNT(*)' );
 			$this->queryStructure->setElement( QueryStructure::LIMIT, 1 );
 			$this->queryStructure->setElement( QueryStructure::DISTINCT, 0 ); //???
 		}
@@ -140,7 +140,7 @@ class QuerySelect extends QueryStatement implements QueryStatementInterface
 		/**
 		 * FIELDS
 		 */
-		$syntax[] = $this->queryStructure->getElement( QueryStructure::FIELDS );
+		$syntax[] = $this->getSelectFieldsSyntax();
 
 		/**
 		 * FROM table or queryStructure

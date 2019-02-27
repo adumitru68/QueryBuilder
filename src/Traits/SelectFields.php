@@ -9,6 +9,8 @@
 namespace Qpdb\QueryBuilder\Traits;
 
 
+use Qpdb\Common\Helpers\Arrays;
+use Qpdb\Common\Helpers\Strings;
 use Qpdb\QueryBuilder\Dependencies\QueryException;
 use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 
@@ -20,106 +22,65 @@ use Qpdb\QueryBuilder\Dependencies\QueryStructure;
 trait SelectFields
 {
 
-	/**
-	 * @param string|array $fields
-	 * @return $this
-	 * @throws QueryException
-	 */
-	public function fields( $fields )
-	{
 
-		switch ( gettype( $fields ) ) {
-			case QueryStructure::ELEMENT_TYPE_ARRAY:
-
-				$fields = $this->prepareArrayFields( $fields );
-
-				if ( count( $fields ) )
-					$this->queryStructure->setElement( QueryStructure::FIELDS, implode( ', ', $fields ) );
-				else
-					$this->queryStructure->setElement( QueryStructure::FIELDS, '*' );
-				break;
-
-			case QueryStructure::ELEMENT_TYPE_STRING:
-
-				$fields = trim( $fields );
-				if ( '' !== $fields ) {
-					$fields = explode( ',', $fields );
-					$fields = $this->prepareArrayFields( $fields );
-					$this->queryStructure->setElement( QueryStructure::FIELDS, implode( ', ', $fields ) );
-				}
-				else
-					$this->queryStructure->setElement( QueryStructure::FIELDS, '*' );
-				break;
-
-			default:
-				throw new QueryException( 'Invalid fields parameter type', QueryException::QUERY_ERROR_WHERE_INVALID_PARAM_ARRAY );
-
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param $expression
-	 * @return $this
-	 * @throws QueryException
-	 */
-	public function fieldsByExpression( $expression )
-	{
-		$expression = trim( $expression );
-		$this->queryStructure->setElement( QueryStructure::FIELDS, $expression );
-
-		return $this;
-	}
-
-
-
-	/**
-	 * @param array $fieldsArray
-	 * @return array
-	 * @throws QueryException
-	 */
-	private function prepareArrayFields( $fieldsArray = array() )
-	{
-		$prepareArray = [];
-
-		foreach ( $fieldsArray as $field ) {
-
-			switch ( gettype( $field ) ) {
-				case QueryStructure::ELEMENT_TYPE_STRING:
-					$prepareArray[] = $this->queryStructure->prepare( $field );
-					break;
-				case QueryStructure::ELEMENT_TYPE_ARRAY:
-					$prepareArray[] = $this->getFieldByArray( $field );
-					break;
-				default:
-					throw new QueryException('Invalid field description');
+	public function fields( ...$fields ) {
+		$fields = Arrays::flattenValues( $this->normalizeFields( $fields ), true );
+		foreach ( $fields as $field ) {
+			$field = Strings::removeMultipleSpace( $field, true );
+			if ( '' === $field ) {
+				continue;
+			}
+			if ( str_word_count( $field ) === 1 ) {
+				$this->queryStructure->setElement( QueryStructure::FIELDS, $this->queryStructure->prepare( $field ) );
+			} else {
+				$fieldParts = explode( ' ', $field );
+				$fieldName = $this->queryStructure->prepare( $fieldParts[ 0 ] );
+				array_shift( $fieldParts );
+				$fieldAlias = $this->queryStructure->prepare( implode( ' ', $fieldParts ) );
+				$this->fieldExpression( $fieldName, $fieldAlias );
 			}
 		}
 
-		return $prepareArray;
+		return $this;
 	}
 
-
 	/**
-	 * @param array $fieldArray
-	 * @return string
+	 * @param             $field
+	 * @param null|string $alias
+	 * @return $this
 	 * @throws QueryException
 	 */
-	private function getFieldByArray( array $fieldArray )
-	{
+	public function fieldExpression( $field, $alias = null ) {
+		$field = trim( $field );
+		if ( '' !== $alias ) {
+			$field .= ' ' . $alias;
+		}
+		$this->queryStructure->setElement( QueryStructure::FIELDS, $field );
 
-		if ( !in_array( count( $fieldArray ), [ 1, 2 ] ) ) {
-			throw new QueryException( 'Invalid descriptive array from field.' );
+		return $this;
+	}
+
+	private function normalizeFields( $fields ) {
+		$array = Arrays::flattenValues( $fields );
+		$array = (array)$array;
+		$return = array();
+		array_walk_recursive( $array, function( $a ) use ( &$return ) {
+			$a = explode( ',', $a );
+			$return[] = $a;
+		} );
+
+		return $return;
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getSelectFieldsSyntax() {
+		if ( empty( $this->queryStructure->getElement( QueryStructure::FIELDS ) ) ) {
+			return '*';
 		}
 
-		if ( count( $fieldArray ) === 1 ) {
-			return $this->queryStructure->prepare( trim( $fieldArray[ 0 ] ) );
-		}
-		else {
-			return $this->queryStructure->prepare( trim( $fieldArray[ 0 ] ) ) . ' ' . $this->queryStructure->prepare( trim( $fieldArray[ 1 ] ) );
-		}
-
+		return implode( ', ', $this->queryStructure->getElement( QueryStructure::FIELDS ));
 	}
 
 }

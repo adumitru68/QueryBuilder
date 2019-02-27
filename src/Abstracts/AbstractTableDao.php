@@ -35,8 +35,7 @@ abstract class AbstractTableDao
 	/**
 	 * AbstractTableCrud constructor.
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->table = $this->getTableName();
 		$this->primary = (array)$this->getPrimaryKey();
 		$this->orderField = $this->getOrderField();
@@ -60,13 +59,12 @@ abstract class AbstractTableDao
 
 
 	/**
-	 * @param $id
+	 * @param       $id
 	 * @param array $fields
 	 * @return array|bool
 	 * @throws QueryException
 	 */
-	public function getRowById( $id, array $fields = [] )
-	{
+	public function getRowById( $id, array $fields = [] ) {
 		$conditions = $this->getPrimaryKeyConditions( $id );
 		$result = QueryBuild::select( $this->table )->fields( $fields );
 		foreach ( $conditions as $field => $value )
@@ -81,8 +79,7 @@ abstract class AbstractTableDao
 	 * @return array|int|null
 	 * @throws QueryException
 	 */
-	public function deleteRowById( $id )
-	{
+	public function deleteRowById( $id ) {
 		$conditions = $this->getPrimaryKeyConditions( $id );
 		$result = QueryBuild::delete( $this->table );
 		foreach ( $conditions as $field => $value )
@@ -92,13 +89,12 @@ abstract class AbstractTableDao
 	}
 
 	/**
-	 * @param $id
+	 * @param       $id
 	 * @param array $arrayUpdater
 	 * @return array|int|null
 	 * @throws \Qpdb\QueryBuilder\Dependencies\QueryException
 	 */
-	public function updateRowById( $id, array $arrayUpdater )
-	{
+	public function updateRowById( $id, array $arrayUpdater ) {
 		$conditions = $this->getPrimaryKeyConditions( $id );
 		$result = QueryBuild::update( $this->table );
 		foreach ( $conditions as $field => $value )
@@ -114,9 +110,30 @@ abstract class AbstractTableDao
 	 * @return bool|mixed|\PDOStatement
 	 * @throws QueryException
 	 */
-	public function insertRow( array $arrayValues )
-	{
+	public function insertRow( array $arrayValues ) {
 		return QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues )->execute();
+	}
+
+	/**
+	 * @param bool $nullToZero
+	 * @return null|mixed
+	 * @throws QueryException
+	 */
+	public function getMaxOrder( $nullToZero = false ) {
+		if ( empty( $this->orderField ) )
+			throw new QueryException( 'Order field is not defined' );
+
+		$result = QueryBuild::select( $this->table )
+			->fieldExpression( "MAX(`{$this->orderField}`)", "max_order_column_alias" )
+			->first()
+			->column( 'max_order_column_alias' )
+			->execute();
+
+		if ( null === $result && $nullToZero ) {
+			return 0;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -124,8 +141,7 @@ abstract class AbstractTableDao
 	 * @return bool|\PDOStatement
 	 * @throws QueryException
 	 */
-	public function saveOrder( $updates_ord = array() )
-	{
+	public function saveOrder( $updates_ord = array() ) {
 		if ( empty( $this->orderField ) )
 			throw new QueryException( 'Order field is not defined' );
 
@@ -137,7 +153,7 @@ abstract class AbstractTableDao
 		}
 		$query .= "ELSE `{$this->orderField}` END";
 
-		return PdoWrapperService::getInstance()->query($query, []);
+		return PdoWrapperService::getInstance()->query( $query, [] );
 	}
 
 
@@ -146,8 +162,7 @@ abstract class AbstractTableDao
 	 * @return array
 	 * @throws QueryException
 	 */
-	protected function getPrimaryKeyConditions( $id )
-	{
+	protected function getPrimaryKeyConditions( $id ) {
 
 		$id = (array)$id;
 
