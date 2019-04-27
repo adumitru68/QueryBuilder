@@ -31,6 +31,11 @@ abstract class AbstractTableDao
 	 */
 	protected $orderField;
 
+	/**
+	 * @var integer
+	 */
+	protected $insertId;
+
 
 	/**
 	 * AbstractTableCrud constructor.
@@ -73,6 +78,21 @@ abstract class AbstractTableDao
 		return $result->first()->execute();
 	}
 
+	/**
+	 * @param       $fieldName
+	 * @param       $fieldValue
+	 * @param array $fields
+	 * @return array
+	 * @throws QueryException
+	 */
+	public function getFirstRowByCondition( $fieldName, $fieldValue, $fields = [] ) {
+		return QueryBuild::select( $this->table )
+			->fields( $fields )
+			->whereEqual( $fieldName, $fieldValue )
+			->first()
+			->execute();
+	}
+
 
 	/**
 	 * @param $id
@@ -111,7 +131,9 @@ abstract class AbstractTableDao
 	 * @throws QueryException
 	 */
 	public function insertRow( array $arrayValues ) {
-		return QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues )->execute();
+		$result = QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues )->execute();
+		$this->insertId = PdoWrapperService::getInstance()->lastInsertId();
+		return $result;
 	}
 
 	/**
@@ -175,6 +197,13 @@ abstract class AbstractTableDao
 			$conditions[ $key ] = $id[ $index ];
 
 		return $conditions;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getInsertId(): int {
+		return $this->insertId;
 	}
 
 
