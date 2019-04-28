@@ -124,6 +124,20 @@ abstract class AbstractTableDao
 		return $result->execute();
 	}
 
+	/**
+	 * @param       $fieldName
+	 * @param       $fieldValue
+	 * @param array $arrayUpdater
+	 * @return array|int|null
+	 * @throws QueryException
+	 */
+	public function updateRowsByFieldFilter( $fieldName, $fieldValue, array $arrayUpdater ) {
+		return QueryBuild::update($this->table)
+			->whereEqual($fieldName, $fieldValue)
+			->setFieldsByArray($arrayUpdater)
+			->execute();
+	}
+
 
 	/**
 	 * @param array $arrayValues
@@ -133,6 +147,7 @@ abstract class AbstractTableDao
 	public function insertRow( array $arrayValues ) {
 		$result = QueryBuild::insert( $this->table )->setFieldsByArray( $arrayValues )->execute();
 		$this->insertId = PdoWrapperService::getInstance()->lastInsertId();
+
 		return $result;
 	}
 
