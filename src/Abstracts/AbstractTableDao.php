@@ -217,7 +217,7 @@ abstract class AbstractTableDao
 	/**
 	 * @return int
 	 */
-	public function getInsertId(): int {
+	public function getInsertId() {
 		return $this->insertId;
 	}
 
