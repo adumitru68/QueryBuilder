@@ -80,7 +80,7 @@ trait SelectFields
 			return '*';
 		}
 
-		return implode( ', ', $this->queryStructure->getElement( QueryStructure::FIELDS ));
+		return implode( ', ', (array)$this->queryStructure->getElement( QueryStructure::FIELDS ));
 	}
 
 }
